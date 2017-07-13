@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>BBBBB&#39;s Land</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="Lord don&apos;t move that mountain.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BBBBB&#39;s Land">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="BBBBB&#39;s Land">
+<meta property="og:description" content="Lord don&apos;t move that mountain.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BBBBB&#39;s Land">
+<meta name="twitter:description" content="Lord don&apos;t move that mountain.">
+  
+  
+    <link rel="icon" href="http://bloodshed.qiniudn.com/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+<body>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
+</div>
+<header id="header">
+    <div class = "blog-info">
+	<h1 class="blog-title">
+		<a href="/">BBBBB&#39;s Land</a>
+	</h1></br>
+	Lord don&#39;t move that mountain.
+	</div>
+
+
+	
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/about">About</a></li>
+			<!-- <li><a id="nav-search-btn" class="nav-icon" title="Search"></a></li> -->
+			
+			
+		</ul>
+		
+		
+		
+		
+	
+	</nav>
+	
+	<!-- <div id="search-form-wrap">
+		<form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+	</div> -->
+	
+	
+</header>
+
+
+    <div id="main">
+      
+  
+    <article id="post-ReusableCellInMVVM" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/07/12/ReusableCellInMVVM/" class="article-date">
+  <time datetime="2017-07-12T09:32:56.000Z" itemprop="datePublished">2017-07-12</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<div class="commentscount">
+			
+		</div>
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 itemprop="name" class="entry-title">
+      <a class="article-title" href="/2017/07/12/ReusableCellInMVVM/">在MVVM中使用ReusableCell的正确姿势</a>
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+    	<p>在MVVM中使用ReusableCell的正确姿势</p>
+<p>在iOS开发中，不可避免要使用<code>UITableView</code>和<code>UICollectionView</code>，那么就一定会使用<code>UITableViewCell</code>和<code>UICollectionViewCell</code>。最为普遍的使用方法无外乎如下（以<code>UITableView</code>为例）:<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//先注册Cell</div><div class="line">tableView.register(SomeCell.classForCoder(), forCellReuseIdentifier: &quot;SomeCell&quot;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//再根据注册的CellReuseIdentifier获取Cell</div><div class="line">func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -&gt; UITableViewCell &#123;</div><div class="line">    let cell = tableView.dequeueReusableCell(withIdentifier: &quot;SomeCell&quot;, for: indexPath)</div><div class="line">    //some code</div><div class="line">    return cell</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从上上上个项目开始，我开始使用<code>MVVM</code>架构，其中核心角色是各种<code>ViewModel</code>、<code>CellViewModel</code>。在使用<code>UITableView</code>的地方，我的datasource存储的都是一系列的<code>CellViewModel</code>,然后通过<code>CellViewModel</code>获取对应的<code>UITableViewCell</code>。其核心就是直接通过<code>CellViewModel</code>管理对应的<code>CellReuseIdentifier</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">class BaseTableViewCellViewModel: NSObject &#123;</div><div class="line">    //直接使用CellViewModel的类名作为CellReuseIdentifier</div><div class="line">    </div><div class="line">    //类变量作为注册时使用</div><div class="line">    class var cellReuseIdentifier: String &#123;</div><div class="line">        return NSStringFromClass(self.classForCoder())</div><div class="line">    &#125;</div><div class="line">    //成员变量作为通过CellViewModel实例获取Cell时使用</div><div class="line">    var cellReuseIdentifier: String &#123;</div><div class="line">        return NSStringFromClass(self.classForCoder)</div><div class="line">    &#125;</div><div class="line">    //some code</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>那么<code>UITableView</code>的使用方法变为如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tableView.register(SomeCell.classForCoder(), forCellReuseIdentifier: SomeCellViewModel.cellReuseIdentifier)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -&gt; UITableViewCell &#123;</div><div class="line">    let cellViewModel: SomeCellViewModel = tableViewModel.datasource.value[indexPath.section][indexPath.row]</div><div class="line">    let cell = tableView.dequeueReusableCell(withIdentifier: cellViewModel.cellReuseIdentifier, for: indexPath)</div><div class="line">    //some code</div><div class="line">    return cell</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是，今天看到了一个开源库<a href="https://github.com/AliSoftware/Reusable" target="_blank" rel="external">Reusable</a>,它使ReusableCell的使用更加简单暴力：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// Example of what Reusable allows you to do</div><div class="line">final class MyCustomCell: UITableViewCell, Reusable &#123; /* And that&apos;s it! */ &#125;</div><div class="line">tableView.register(cellType: MyCustomCell.self)</div><div class="line">let cell: MyCustomCell = tableView.dequeueReusableCell(for: indexPath)</div></pre></td></tr></table></figure>
+<p>没错，<code>CellReuseIdentifier</code>消失了！<br>看了源码发现，这个库的思路跟我有异曲同工之妙。首先是这个<code>Reusable</code>协议：<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//Reusable.swift</div><div class="line">public protocol Reusable: class &#123;</div><div class="line">  /// The reuse identifier to use when registering and later dequeuing a reusable cell</div><div class="line">  static var reuseIdentifier: String &#123; get &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//some code</div><div class="line"></div><div class="line">// MARK: - Default implementation</div><div class="line">public extension Reusable &#123;</div><div class="line">  /// By default, use the name of the class as String for its reuseIdentifier</div><div class="line">  static var reuseIdentifier: String &#123;</div><div class="line">    return String(describing: self)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">//UITableView+Reusable.swift</div><div class="line">final func register&lt;T: UITableViewCell&gt;(cellType: T.Type)</div><div class="line">    where T: Reusable &#123;</div><div class="line">      self.register(cellType.self, forCellReuseIdentifier: cellType.reuseIdentifier)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">final func dequeueReusableCell&lt;T: UITableViewCell&gt;(for indexPath: IndexPath, cellType: T.Type = T.self) -&gt; T</div><div class="line">    where T: Reusable &#123;</div><div class="line">      guard let cell = self.dequeueReusableCell(withIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else &#123;</div><div class="line">        fatalError(</div><div class="line">          &quot;Failed to dequeue a cell with identifier \(cellType.reuseIdentifier) matching type \(cellType.self). &quot;</div><div class="line">            + &quot;Check that the reuseIdentifier is set properly in your XIB/Storyboard &quot;</div><div class="line">            + &quot;and that you registered the cell beforehand&quot;</div><div class="line">        )</div><div class="line">      &#125;</div><div class="line">      return cell</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>它定义了一个静态变量<code>reuseIdentifier</code>，并通过协议扩展使用自己的类名作为<code>reuseIdentifier</code>的值。接下来，再通过为<code>UITableView</code>编写extension， 实现了不需要<code>CellReuseIdentifer</code>的register,dequeue函数。实际上可以看到，函数的实现是通过泛型，接受遵从<code>Reusable</code>协议的<code>UITableViewCell</code>作为参数，获取到<code>Reusable</code>协议中定义到的<code>reuseIdentifier</code>变量，作为identifier在函数内部使用，妙哇！<br><br>但是以上我只提到了纯代码实现的Cell，那么对用通过xib编写的Cell，如何处理？<br>在我的项目中，我的解决方案是实现一个<code>NibGeneratedType</code>协议，并通过协议扩展为所有遵从这个协议的类添加默认实现，表明遵从这个协议的类都是可以从xib加载的。具体实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  NibGeneratedType.swift</div><div class="line">//  Tupai</div><div class="line">//</div><div class="line">//  Created by Hahn.Chan on 26/04/2017.</div><div class="line">//  Copyright © 2017 Hahn Chan. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">import Foundation</div><div class="line"></div><div class="line">protocol NibGeneratedType: class &#123;</div><div class="line">    static var nib: UINib &#123; get &#125;</div><div class="line">    </div><div class="line">    static func initFromNib() -&gt; Self</div><div class="line">&#125;</div><div class="line"></div><div class="line">extension NibGeneratedType where Self: UIView&#123;</div><div class="line">    static var nib: UINib &#123;</div><div class="line">        return UINib.init(nibName: NSStringFromClass(self.classForCoder()).components(separatedBy: &quot;.&quot;).last!, bundle: Bundle.main)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    static func initFromNib() -&gt; Self &#123;</div><div class="line">        return Bundle.main.loadNibNamed(NSStringFromClass(self.classForCoder()).components(separatedBy: &quot;.&quot;).last!,</div><div class="line">                                        owner: nil,</div><div class="line">                                        options: nil)?.last as! Self</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tableView.register(SomeCell.nib, forCellWithReuseIdentifier: SomeCellViewModel.cellReuseIdentifier)</div></pre></td></tr></table></figure>
+<p>其实如果只是想通过获取nib的话，只需要定义并实现<code>nib</code>静态变量即可，<code>initFromNib</code>这个函数是为了实现初始化其他通过xib编写的view（因为我现在非常喜欢代码+xib混用）</p>
+<p>那么<code>Reusable</code>库又是如何实现的呢？<br>“看了源码发现，这个库的思路跟我有异曲同工之妙” × 2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">//NibLoadable.swift</div><div class="line">public protocol NibLoadable: class &#123;</div><div class="line">  /// The nib file to use to load a new instance of the View designed in a XIB</div><div class="line">  static var nib: UINib &#123; get &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// MARK: Default implementation</div><div class="line">public extension NibLoadable &#123;</div><div class="line">  /// By default, use the nib which have the same name as the name of the class,</div><div class="line">  /// and located in the bundle of that class</div><div class="line">  static var nib: UINib &#123;</div><div class="line">    return UINib(nibName: String(describing: self), bundle: Bundle(for: self))</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// MARK: Support for instantiation from NIB</div><div class="line">public extension NibLoadable where Self: UIView &#123;</div><div class="line">  /**</div><div class="line">   Returns a `UIView` object instantiated from nib</div><div class="line">   - returns: A `NibLoadable`, `UIView` instance</div><div class="line">   */</div><div class="line">  static func loadFromNib() -&gt; Self &#123;</div><div class="line">    guard let view = nib.instantiate(withOwner: nil, options: nil).first as? Self else &#123;</div><div class="line">      fatalError(&quot;The nib \(nib) expected its root view to be of type \(self)&quot;)</div><div class="line">    &#125;</div><div class="line">    return view</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//UITableView+Reusable.swift</div><div class="line">  final func register&lt;T: UITableViewCell&gt;(cellType: T.Type)</div><div class="line">    where T: Reusable &amp; NibLoadable &#123;</div><div class="line">      self.register(cellType.nib, forCellReuseIdentifier: cellType.reuseIdentifier)</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>一目了然，只不过通过xib加载view的函数略有不同。</p>
+<p>========================================<br><br><br>总的来说，我的思路和<code>Reusable</code>库的思路是一致的，但是在代码质量上，我确实还是需要学习一个。</p>
+
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVVM/">MVVM</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+</article>
+
+
+	<hr class="article-devider">
+
+
+<!--
+
+-->
+
+  
+  
+
+    </div>
+    <!-- <div class="mb-search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+-->
+<footer id="footer">
+	<!-- <h1 class="footer-blog-title">
+			<a href="/">BBBBB&#39;s Land</a>
+		</h1> 
+	-->
+	<span class="copyright">
+		&copy; 2017 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
+		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
+	</span>
+</footer>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
