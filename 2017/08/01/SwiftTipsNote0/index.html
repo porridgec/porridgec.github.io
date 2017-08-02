@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Swifter - Swift 开发者必备 Tips》读书笔记 0 | BBBBB&#39;s Land</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="柯里化(Currying)喵神在书中给出的例子： 1234func addOne(num: Int) -&amp;gt; Int &amp;#123;    return num + 1&amp;#125;//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks. 这只是一个简单的+1的函数，那么要+2，+3呢？ 1234567func a">
+<meta name="keywords" content="Swift,Functional Programming">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 0">
+<meta property="og:url" content="http://yoursite.com/2017/08/01/SwiftTipsNote0/index.html">
+<meta property="og:site_name" content="BBBBB&#39;s Land">
+<meta property="og:description" content="柯里化(Currying)喵神在书中给出的例子： 1234func addOne(num: Int) -&amp;gt; Int &amp;#123;    return num + 1&amp;#125;//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks. 这只是一个简单的+1的函数，那么要+2，+3呢？ 1234567func a">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tKfTcgy1fi4bahsf1uj30je02djrh.jpg">
+<meta property="og:image" content="http://7vzn6p.com1.z0.glb.clouddn.com/15016638839330.jpg">
+<meta property="og:updated_time" content="2017-08-02T11:20:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 0">
+<meta name="twitter:description" content="柯里化(Currying)喵神在书中给出的例子： 1234func addOne(num: Int) -&amp;gt; Int &amp;#123;    return num + 1&amp;#125;//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks. 这只是一个简单的+1的函数，那么要+2，+3呢？ 1234567func a">
+<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tKfTcgy1fi4bahsf1uj30je02djrh.jpg">
+  
+  
+    <link rel="icon" href="http://bloodshed.qiniudn.com/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+<body>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
+</div>
+<header id="header">
+    <div class = "blog-info">
+	<h1 class="blog-title">
+		<a href="/">BBBBB&#39;s Land</a>
+	</h1></br>
+	Lord don&#39;t move that mountain.
+	</div>
+
+
+	
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/about">About</a></li>
+			<!-- <li><a id="nav-search-btn" class="nav-icon" title="Search"></a></li> -->
+			
+			
+		</ul>
+		
+		
+		
+		
+	
+	</nav>
+	
+	<!-- <div id="search-form-wrap">
+		<form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+	</div> -->
+	
+	
+</header>
+
+
+    <div id="main">
+      <article id="post-SwiftTipsNote0" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/08/01/SwiftTipsNote0/" class="article-date">
+  <time datetime="2017-08-01T08:10:44.000Z" itemprop="datePublished">2017-08-01</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/08/01/SwiftTipsNote0/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 class="article-title entry-title" itemprop="name">
+      《Swifter - Swift 开发者必备 Tips》读书笔记 0
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+    	<h3 id="柯里化-Currying"><a href="#柯里化-Currying" class="headerlink" title="柯里化(Currying)"></a>柯里化(Currying)</h3><p>喵神在书中给出的例子：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">addOne</span><span class="params">(num: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">    <span class="keyword">return</span> num + <span class="number">1</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>这只是一个简单的+1的函数，那么要+2，+3呢？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">addTo</span><span class="params">(<span class="number">_</span> adder: Int)</span></span> -&gt; (<span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        num <span class="keyword">in</span></div><div class="line">        <span class="keyword">return</span> num + adder</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>那么可以方便地得到</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> addTwo = addTo(<span class="number">2</span>)    <span class="comment">// addTwo: Int -&gt; Int</span></div><div class="line"><span class="keyword">let</span> result = addTwo(<span class="number">6</span>)   <span class="comment">// result = 8</span></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p><code>addTo(_ adder: Int)</code>这个函数的返回值就是一个closure，这就体现了柯里化的核心就是函数式编程<code>Functional Programming</code>。</p>
+<hr>
+<a id="more"></a>
+<h3 id="将-protocol-的方法声明为-mutating"><a href="#将-protocol-的方法声明为-mutating" class="headerlink" title="将 protocol 的方法声明为 mutating"></a>将 protocol 的方法声明为 mutating</h3><p><code>protocol</code>是Swift中非常重要的组成部分，Swift中的<code>protocol</code>不仅可以被<code>class</code>实现，也可以被<code>enum</code>和<code>struct</code>实现。但是需要注意的是，如果某个协议需要使用<code>enum</code>或<code>struct</code>实现时，协议定义中需要在修改成员变量的方法前添加<code>mutating</code>关键字，而<code>class</code>则无需担心。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">LivingType</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> lifetime: <span class="type">Int</span> &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">plusOneSecond</span><span class="params">()</span></span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span>: <span class="title">LivingType</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> lifetime: <span class="type">Int</span> = <span class="number">0</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">plusOneSecond</span><span class="params">()</span></span> &#123;</div><div class="line">        lifetime += <span class="number">1</span></div><div class="line">        <span class="built_in">print</span>(<span class="string">"lifetime now is <span class="subst">\(lifetime)</span>"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>没有声明<code>mutating</code>，无法通过编译<br><img src="https://ws2.sinaimg.cn/large/006tKfTcgy1fi4bahsf1uj30je02djrh.jpg" alt=""><br>修改后：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">LivingType</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> lifetime: <span class="type">Int</span> &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">plusOneSecond</span><span class="params">()</span></span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span>: <span class="title">LivingType</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> lifetime: <span class="type">Int</span> = <span class="number">0</span></div><div class="line">    <span class="keyword">mutating</span> <span class="function"><span class="keyword">func</span> <span class="title">plusOneSecond</span><span class="params">()</span></span> &#123;</div><div class="line">        lifetime += <span class="number">1</span></div><div class="line">        <span class="built_in">print</span>(<span class="string">"lifetime now is <span class="subst">\(lifetime)</span>"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> 🐸 = <span class="type">Person</span>()</div><div class="line"><span class="built_in">print</span>(🐸)</div><div class="line">🐸 .plusOneSecond()</div><div class="line"><span class="built_in">print</span>(🐸)</div><div class="line"></div><div class="line"><span class="comment">//print result</span></div><div class="line"><span class="comment">//Person(lifetime: 0)</span></div><div class="line"><span class="comment">//lifetime now is 1</span></div><div class="line"><span class="comment">//Person(lifetime: 1)</span></div></pre></td></tr></table></figure>
+<hr>
+<h3 id="associatedtype"><a href="#associatedtype" class="headerlink" title="associatedtype"></a>associatedtype</h3><p><code>protocol</code>是Swift中非常重要的组成部分（这句话是直接copy上面一段的），我们可以在其中定义属性和方法。以著名的<code>ReactiveSwift</code>中定义的信号协议为例：<br></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">protocol</span> <span class="title">SignalProtocol</span> </span>&#123;</div><div class="line">	<span class="comment">/// The type of values being sent on the signal.</span></div><div class="line">	associatedtype <span class="type">Value</span></div><div class="line"></div><div class="line">	<span class="comment">/// The type of error that can occur on the signal. If errors aren't</span></div><div class="line">	<span class="comment">/// possible then `NoError` can be used.</span></div><div class="line">	associatedtype <span class="type">Error</span>: <span class="type">Swift</span>.<span class="type">Error</span></div><div class="line"></div><div class="line">	<span class="comment">/// Extracts a signal from the receiver.</span></div><div class="line">	<span class="keyword">var</span> signal: <span class="type">Signal</span>&lt;<span class="type">Value</span>, <span class="type">Error</span>&gt; &#123; <span class="keyword">get</span> &#125;</div><div class="line"></div><div class="line">	<span class="comment">/// Observes the Signal by sending any future events to the given observer.</span></div><div class="line">	@discardableResult</div><div class="line">	<span class="function"><span class="keyword">func</span> <span class="title">observe</span><span class="params">(<span class="number">_</span> observer: Signal&lt;Value, Error&gt;.Observer)</span></span> -&gt; <span class="type">Disposable</span>?</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到它定义了两个<code>associatedtype</code>：<code>Value</code>和<code>Error</code>,分别代表信号传输的value和error类型。由于无法预先确定信号到底会传输什么类型的value和error，所以只能使用一个占位符来表示，这就是<code>associatedtype</code>的作用（在我的理解中有点协议中的泛型的感觉）。<br><br>书中接下来提到，有一点需要注意，即包含了<code>associatedtype</code>或<code>Self</code>约束的<code>protocol</code>无法作为类型使用了。<br></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">printSignal</span><span class="params">(signal: SignalProtocol)</span></span> &#123;</div><div class="line">    <span class="built_in">print</span>(signal)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这段代码在XCode中报错<br><br><img src="http://7vzn6p.com1.z0.glb.clouddn.com/15016638839330.jpg" alt=""><br><br>这是因为Swift是静态语言，在编译时就需要确定所有的类型，但是<code>SignalProtocol</code>作为类型传入时由于它包含了无法确定<code>associatedtype</code>的具体类型，故无法通过编译。这种时候必须改为泛型函数。<br></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">printSignal</span>&lt;S: SignalProtocol&gt;<span class="params">(signal: S)</span></span> &#123;</div><div class="line">    <span class="built_in">print</span>(signal)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>完美。</p>
+<hr>
+<h3 id="Designated，Convenience-和-Required"><a href="#Designated，Convenience-和-Required" class="headerlink" title="Designated，Convenience 和 Required"></a>Designated，Convenience 和 Required</h3><p>这几个关键字一直闹不清楚，这次好好看了一下。<br><br>首先，<code>Swift</code>的初始化有几个比较重要的原则：</p>
+<ul>
+<li>所有非optional的变量都必须在初始化函数中赋值</li>
+<li>子类实例完成所有变量的初始化之后才能调用父类的初始化函数</li>
+<li>所有<code>convenience</code>的初始化函数都必须调用该类中的<code>Designated</code>初始化函数</li>
+</ul>
+<p>看完书之后，清晰了很多，总结下来还有以下几条：<br></p>
+<ul>
+<li><code>required</code>表示子类中必须<code>override</code>的父类中的<code>designated</code>初始化函数</li>
+<li>子类无法直接使用父类的<code>convenience</code>初始化函数，如果想要使用，则必须<code>override</code>对应的<code>designated</code>初始化函数</li>
+</ul>
+<p>完美。</p>
+<hr>
+
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/07/31/escapingInSwift/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">
+        
+          @escaping In Swift
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section> 
+
+
+    </div>
+    <!-- <div class="mb-search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+-->
+<footer id="footer">
+	<!-- <h1 class="footer-blog-title">
+			<a href="/">BBBBB&#39;s Land</a>
+		</h1> 
+	-->
+	<span class="copyright">
+		&copy; 2017 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
+		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
+	</span>
+</footer>
+    
+<script>
+  var disqus_shortname = 'hahnchan';
+  
+  var disqus_url = 'http://yoursite.com/2017/08/01/SwiftTipsNote0/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

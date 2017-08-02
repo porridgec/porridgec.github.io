@@ -62,6 +62,70 @@
     <div id="main">
       
   
+    <article id="post-SwiftTipsNote0" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/08/01/SwiftTipsNote0/" class="article-date">
+  <time datetime="2017-08-01T08:10:44.000Z" itemprop="datePublished">2017-08-01</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/08/01/SwiftTipsNote0/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 itemprop="name" class="entry-title">
+      <a class="article-title" href="/2017/08/01/SwiftTipsNote0/">《Swifter - Swift 开发者必备 Tips》读书笔记 0</a>
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+			<h3 id="柯里化-Currying"><a href="#柯里化-Currying" class="headerlink" title="柯里化(Currying)"></a>柯里化(Currying)</h3><p>喵神在书中给出的例子：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">addOne</span><span class="params">(num: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">    <span class="keyword">return</span> num + <span class="number">1</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>这只是一个简单的+1的函数，那么要+2，+3呢？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">addTo</span><span class="params">(<span class="number">_</span> adder: Int)</span></span> -&gt; (<span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        num <span class="keyword">in</span></div><div class="line">        <span class="keyword">return</span> num + adder</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>那么可以方便地得到</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> addTwo = addTo(<span class="number">2</span>)    <span class="comment">// addTwo: Int -&gt; Int</span></div><div class="line"><span class="keyword">let</span> result = addTwo(<span class="number">6</span>)   <span class="comment">// result = 8</span></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p><code>addTo(_ adder: Int)</code>这个函数的返回值就是一个closure，这就体现了柯里化的核心就是函数式编程<code>Functional Programming</code>。</p>
+<hr>
+			
+				<p class="article-more-link">
+					<a href="/2017/08/01/SwiftTipsNote0/#more">Read More</a>
+				</p>
+      
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+</article>
+
+
+	<hr class="article-devider">
+
+
+
+
+
+  
     <article id="post-escapingInSwift" class="post">
 	<footer class="entry-meta-header">
 		<span class="meta-elements date">
@@ -70,11 +134,11 @@
 </a>
 		</span>
 		<span class="meta-elements author">Hahn Chan</span>
-		<div class="commentscount">
+		<!-- <div class="commentscount">
 			
 				<a href="http://yoursite.com/2017/07/31/escapingInSwift/#disqus_thread" class="article-comment-link">Comments</a>
 			
-		</div>
+		</div> -->
 	</footer>
 	
 	<header class="entry-header">
@@ -131,11 +195,11 @@
 </a>
 		</span>
 		<span class="meta-elements author">Hahn Chan</span>
-		<div class="commentscount">
+		<!-- <div class="commentscount">
 			
 				<a href="http://yoursite.com/2017/07/12/ReusableCellInMVVM/#disqus_thread" class="article-comment-link">Comments</a>
 			
-		</div>
+		</div> -->
 	</footer>
 	
 	<header class="entry-header">
