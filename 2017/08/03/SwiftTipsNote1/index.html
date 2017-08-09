@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Swifter - Swift 开发者必备 Tips》读书笔记 1 | BBBBB&#39;s Land</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="default 参数Swift的函数支持默认参数，即在声明函数的时候指定一个默认的参数值，当调用函数没有传入参数时，使用这个默认参数。以ReactiveSwift中的常用的Observer初始化函数为例： 12345678910111213141516171819202122public convenience init(		value: ((Value) -&amp;gt; Void)? = nil,">
+<meta name="keywords" content="Swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 1">
+<meta property="og:url" content="http://yoursite.com/2017/08/03/SwiftTipsNote1/index.html">
+<meta property="og:site_name" content="BBBBB&#39;s Land">
+<meta property="og:description" content="default 参数Swift的函数支持默认参数，即在声明函数的时候指定一个默认的参数值，当调用函数没有传入参数时，使用这个默认参数。以ReactiveSwift中的常用的Observer初始化函数为例： 12345678910111213141516171819202122public convenience init(		value: ((Value) -&amp;gt; Void)? = nil,">
+<meta property="og:updated_time" content="2017-08-09T09:09:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 1">
+<meta name="twitter:description" content="default 参数Swift的函数支持默认参数，即在声明函数的时候指定一个默认的参数值，当调用函数没有传入参数时，使用这个默认参数。以ReactiveSwift中的常用的Observer初始化函数为例： 12345678910111213141516171819202122public convenience init(		value: ((Value) -&amp;gt; Void)? = nil,">
+  
+  
+    <link rel="icon" href="http://bloodshed.qiniudn.com/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+<body>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
+</div>
+<header id="header">
+    <div class = "blog-info">
+	<h1 class="blog-title">
+		<a href="/">BBBBB&#39;s Land</a>
+	</h1></br>
+	Lord don&#39;t move that mountain.
+	</div>
+
+
+	
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/about/index.html">About</a></li>
+			<!-- <li><a id="nav-search-btn" class="nav-icon" title="Search"></a></li> -->
+			
+			
+		</ul>
+		
+		
+		
+		
+	
+	</nav>
+	
+	<!-- <div id="search-form-wrap">
+		<form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+	</div> -->
+	
+	
+</header>
+
+
+    <div id="main">
+      <article id="post-SwiftTipsNote1" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/08/03/SwiftTipsNote1/" class="article-date">
+  <time datetime="2017-08-03T02:41:02.000Z" itemprop="datePublished">2017-08-03</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/08/03/SwiftTipsNote1/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 class="article-title entry-title" itemprop="name">
+      《Swifter - Swift 开发者必备 Tips》读书笔记 1
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+    	<h3 id="default-参数"><a href="#default-参数" class="headerlink" title="default 参数"></a>default 参数</h3><p><code>Swift</code>的函数支持默认参数，即在声明函数的时候指定一个默认的参数值，当调用函数没有传入参数时，使用这个默认参数。以<code>ReactiveSwift</code>中的常用的<code>Observer</code>初始化函数为例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">convenience</span> <span class="keyword">init</span>(</div><div class="line">		value: ((<span class="type">Value</span>) -&gt; <span class="type">Void</span>)? = <span class="literal">nil</span>,</div><div class="line">		failed: ((<span class="type">Error</span>) -&gt; <span class="type">Void</span>)? = <span class="literal">nil</span>,</div><div class="line">		completed: (() -&gt; <span class="type">Void</span>)? = <span class="literal">nil</span>,</div><div class="line">		interrupted: (() -&gt; <span class="type">Void</span>)? = <span class="literal">nil</span></div><div class="line">	) &#123;</div><div class="line">		<span class="keyword">self</span>.<span class="keyword">init</span> &#123; event <span class="keyword">in</span></div><div class="line">			<span class="keyword">switch</span> event &#123;</div><div class="line">			<span class="keyword">case</span> <span class="keyword">let</span> .value(v):</div><div class="line">				value?(v)</div><div class="line"></div><div class="line">			<span class="keyword">case</span> <span class="keyword">let</span> .failed(error):</div><div class="line">				failed?(error)</div><div class="line"></div><div class="line">			<span class="keyword">case</span> .completed:</div><div class="line">				completed?()</div><div class="line"></div><div class="line">			<span class="keyword">case</span> .interrupted:</div><div class="line">				interrupted?()</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>可以看到四个参数都指定了默认值<code>nil</code>,这就可以在调用函数时给我们带来极大地遍历，我们不需要传入所有的参数，省下了不少的工作量。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="type">Network</span>.getUser(uid: <span class="literal">nil</span>).start(<span class="type">Observer</span>&lt;<span class="type">UserModel</span>, <span class="type">MoyaError</span>&gt;.<span class="keyword">init</span>(value: &#123; (userModel) <span class="keyword">in</span></div><div class="line">                <span class="type">AccountManager</span>.shared.accountAction.apply((.loginedUser(userModel: userModel), <span class="literal">false</span>)).start()</div><div class="line">                observer.send(value: (action, <span class="literal">true</span>))</div><div class="line">                observer.sendCompleted()</div><div class="line">            &#125;, failed: &#123; (<span class="number">_</span>) <span class="keyword">in</span></div><div class="line">                observer.send(value: (action, <span class="literal">false</span>))</div><div class="line">                observer.sendCompleted()</div><div class="line">            &#125;))</div></pre></td></tr></table></figure>
+<p>如以上代码，可以看到我只传入了<code>value</code>和<code>failed</code>两个closure，因为我的业务只需要对于这两个<code>event</code>进行处理。</p>
+<hr>
+<a id="more"></a>
+<h3 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h3><p><code>Swift</code>中已经定义了<code>+</code>,<code>-</code>,<code>*</code>,<code>/</code>等基本运算的操作符，假如需要自定义的操作符，比如书中给的向量点积的操作符<code>+*</code>，需要编写以下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">precedencegroup <span class="type">DotProductPrecedence</span> &#123;</div><div class="line">    <span class="keyword">associativity</span>: <span class="keyword">none</span></div><div class="line">    higherThan: <span class="type">MultiplicationPrecedence</span></div><div class="line">    <span class="comment">//lowerThan: somePrecedence</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">infix</span> <span class="keyword">operator</span> +*: <span class="type">DotProductPrecedence</span></div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p><code>precedencegroup</code> 定义了操作符的结合律(<code>associativity</code>)和优先级关系(<code>higherThan</code>,<code>lowerThan</code>)。(在<a href="https://github.com/apple/swift-evolution/blob/master/proposals/0077-operator-precedence.md" target="_blank" rel="external">GitHub</a>可以找到完整的操作符优先级列表)<br><br><code>infix</code>定义这是一个<b>中位操作符</b>，当然，还能定义<code>prefix</code>和<code>postfix</code>(最常见的如<code>++ i</code>和<code>i ++</code>)<br><br>最后喵神还特别提出，由于<code>Swift</code>的操作符是全局的，所以在自定义操作符之前，需再三斟酌，规避可能出现的冲突风险。</p>
+<hr>
+<h3 id="static-和-class"><a href="#static-和-class" class="headerlink" title="static 和 class"></a>static 和 class</h3><p>在日常的编码中，不可避免会有需要用到“类变量”、“类方法”等“类型范围作用域”的变量和方法，在<code>Swift</code>中表示“类型范围作用域”的关键字有<code>static</code>和<code>class</code>,规则如下：</p>
+<table>
+<thead>
+<tr>
+<th><code>struct</code> <code>enum</code> <code>protocol</code></th>
+<th><code>class</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>static</code></td>
+<td><code>class</code>和<code>static</code>等效</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h3><p>正则表达式用得很多了，没什么特别要说的，但这篇tip的主要内容在于结合之前提到的自定义操作符来实现像其他语言一样直接使用<code>=~</code>来进行匹配。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">RegexHelper</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> regex: <span class="type">NSRegularExpression</span></div><div class="line">    </div><div class="line">    <span class="keyword">init</span>(<span class="number">_</span> pattern: <span class="type">String</span>) <span class="keyword">throws</span> &#123;</div><div class="line">        <span class="keyword">try</span> regex = <span class="type">NSRegularExpression</span>(pattern: pattern,</div><div class="line">                                        options: .caseInsensitive)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">match</span><span class="params">(<span class="number">_</span> input: String)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        <span class="comment">//这一句由于Swift版本变化，我已注释掉书中代码，改为Swift 3语法</span></div><div class="line">        <span class="comment">//let matches = regex.matchesInString(input,</span></div><div class="line">        <span class="comment">//                                    options: [],</span></div><div class="line">        <span class="comment">//                                    range: NSMakeRange(0, input.utf16.count))</span></div><div class="line">        <span class="keyword">let</span> matches = regex.matches(<span class="keyword">in</span>: input,</div><div class="line">                                    options: [],</div><div class="line">                                    range: <span class="type">NSMakeRange</span>(<span class="number">0</span>, input.utf16.<span class="built_in">count</span>))</div><div class="line">        <span class="keyword">return</span> matches.<span class="built_in">count</span> &gt; <span class="number">0</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">precedencegroup <span class="type">MatchPrecedence</span> &#123;</div><div class="line">    <span class="keyword">associativity</span>: <span class="keyword">none</span></div><div class="line">    higherThan: <span class="type">DefaultPrecedence</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">infix</span> <span class="keyword">operator</span> =~: <span class="type">MatchPrecedence</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> =~<span class="params">(lhs: String, rhs: String)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">    <span class="keyword">do</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">try</span> <span class="type">RegexHelper</span>(rhs).match(lhs)</div><div class="line">    &#125; <span class="keyword">catch</span> <span class="number">_</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> <span class="string">"onev@onevcat.com"</span> =~</div><div class="line"><span class="string">"^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]&#123;2,6&#125;)$"</span> &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"有效的邮箱地址"</span>)</div><div class="line">&#125;</div><div class="line"><span class="comment">//打印结果: 有效的邮箱地址</span></div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<hr>
+
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Swift新元素/">Swift新元素</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/01/SwiftTipsNote0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">
+        
+          《Swifter - Swift 开发者必备 Tips》读书笔记 0
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section> 
+
+
+    </div>
+    <!-- <div class="mb-search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+-->
+<footer id="footer">
+	<!-- <h1 class="footer-blog-title">
+			<a href="/">BBBBB&#39;s Land</a>
+		</h1> 
+	-->
+	<span class="copyright">
+		&copy; 2017 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
+		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
+	</span>
+</footer>
+    
+<script>
+  var disqus_shortname = 'hahnchan';
+  
+  var disqus_url = 'http://yoursite.com/2017/08/03/SwiftTipsNote1/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
