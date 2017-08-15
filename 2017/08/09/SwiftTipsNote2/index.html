@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Swifter - Swift 开发者必备 Tips》读书笔记 2 | BBBBB&#39;s Land</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="协议和类方法中的 SelfSwift中的protocol非常强大，应用的场景非常广泛。以我自己写的一个协议为例(这个协议的具体作用在之前的《在MVVM中使用ReusableCell的正确姿势》有所说明): 12345protocol NibGeneratedType: class &amp;#123;    static var nib: UINib &amp;#123; get &amp;#125;        st">
+<meta name="keywords" content="Swift,Protocol-Oriented Programming">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 2">
+<meta property="og:url" content="http://yoursite.com/2017/08/09/SwiftTipsNote2/index.html">
+<meta property="og:site_name" content="BBBBB&#39;s Land">
+<meta property="og:description" content="协议和类方法中的 SelfSwift中的protocol非常强大，应用的场景非常广泛。以我自己写的一个协议为例(这个协议的具体作用在之前的《在MVVM中使用ReusableCell的正确姿势》有所说明): 12345protocol NibGeneratedType: class &amp;#123;    static var nib: UINib &amp;#123; get &amp;#125;        st">
+<meta property="og:updated_time" content="2017-08-15T07:34:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 2">
+<meta name="twitter:description" content="协议和类方法中的 SelfSwift中的protocol非常强大，应用的场景非常广泛。以我自己写的一个协议为例(这个协议的具体作用在之前的《在MVVM中使用ReusableCell的正确姿势》有所说明): 12345protocol NibGeneratedType: class &amp;#123;    static var nib: UINib &amp;#123; get &amp;#125;        st">
+  
+  
+    <link rel="icon" href="http://bloodshed.qiniudn.com/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+<body>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
+</div>
+<header id="header">
+    <div class = "blog-info">
+	<h1 class="blog-title">
+		<a href="/">BBBBB&#39;s Land</a>
+	</h1></br>
+	Lord don&#39;t move that mountain.
+	</div>
+
+
+	
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/about/index.html">About</a></li>
+			<!-- <li><a id="nav-search-btn" class="nav-icon" title="Search"></a></li> -->
+			
+			
+		</ul>
+		
+		
+		
+		
+	
+	</nav>
+	
+	<!-- <div id="search-form-wrap">
+		<form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+	</div> -->
+	
+	
+</header>
+
+
+    <div id="main">
+      <article id="post-SwiftTipsNote2" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/08/09/SwiftTipsNote2/" class="article-date">
+  <time datetime="2017-08-09T09:12:42.000Z" itemprop="datePublished">2017-08-09</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/08/09/SwiftTipsNote2/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 class="article-title entry-title" itemprop="name">
+      《Swifter - Swift 开发者必备 Tips》读书笔记 2
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+    	<h3 id="协议和类方法中的-Self"><a href="#协议和类方法中的-Self" class="headerlink" title="协议和类方法中的 Self"></a>协议和类方法中的 Self</h3><p><code>Swift</code>中的<code>protocol</code>非常强大，应用的场景非常广泛。以我自己写的一个协议为例(这个协议的具体作用在之前的<a href="https://hahnchan.info/2017/07/12/ReusableCellInMVVM/" target="_blank" rel="external">《在MVVM中使用ReusableCell的正确姿势》</a>有所说明):</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">NibGeneratedType</span>: <span class="title">class</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> nib: <span class="type">UINib</span> &#123; <span class="keyword">get</span> &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">initFromNib</span><span class="params">()</span></span> -&gt; <span class="type">Self</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>initFromNib()</code>这个函数的返回类型这里写的<code>Self</code>，表示返回一个遵从这个协议的同类型对象。有趣的地方就是，我们声明该协议的时候，对于将来会有什么类型来遵从这个协议是不可得知的，所以需要使用<code>Self</code>进行指代。但是，<code>Self</code>不仅包含了该类型本身，也包含了它的所有子类。<br></p>
+<a id="more"></a>
+<p>继续看代码，我为这个协议写了协议扩展，为遵从这个协议的类型提供了协议的默认实现:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">NibGeneratedType</span> <span class="title">where</span> <span class="title">Self</span>: <span class="title">UIView</span></span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> nib: <span class="type">UINib</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="type">UINib</span>.<span class="keyword">init</span>(nibName: <span class="type">NSStringFromClass</span>(<span class="keyword">self</span>.classForCoder()).components(separatedBy: <span class="string">"."</span>).last!, bundle: <span class="type">Bundle</span>.main)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">initFromNib</span><span class="params">()</span></span> -&gt; <span class="type">Self</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="type">Bundle</span>.main.loadNibNamed(<span class="type">NSStringFromClass</span>(<span class="keyword">self</span>.classForCoder()).components(separatedBy: <span class="string">"."</span>).last!,</div><div class="line">                                        owner: <span class="literal">nil</span>,</div><div class="line">                                        options: <span class="literal">nil</span>)?.last <span class="keyword">as</span>! <span class="type">Self</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>where</code>从句限定了遵从该协议的类一定是<code>UIView</code>及其子类(其实只要是<code>NSObject</code>都行，因为要用到<code>classForCoder()</code>这个函数)。<br><br>重点在于返回，由于声明要返回<code>Self</code>，所以无法直接返回，必须转换成<code>Self</code>。<br><br>书中是以包含一个<code>实例方法</code>的协议作为例子</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Copyable</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">copy</span><span class="params">()</span></span> -&gt; <span class="type">Self</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span>: <span class="title">Copyable</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> num = <span class="number">1</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">copy</span><span class="params">()</span></span> -&gt; <span class="type">Self</span> &#123;</div><div class="line">        <span class="keyword">let</span> result = type(of: <span class="keyword">self</span>).<span class="keyword">init</span>()</div><div class="line">        result.num = num</div><div class="line">        <span class="keyword">return</span> result</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">required</span> <span class="keyword">init</span>() &#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>核心代码是<code>let result = type(of: self).init()</code>及在用到的初始化函数前添加<code>required</code>。<br><br>使用<code>type(of:)</code>限定了返回类型为<code>Self</code>，而<code>required</code>则保证了该类及其子类都能响应该初始化函数。不想使用<code>required</code>的话，则需在类声明前添加<code>final</code>，保证该类不会有子类（消灭了子类，自然无需担心子类需要响应父类初始化函数）。<br><br>再看回我的代码，由于我根本没有用到<code>init()</code>函数，所以我既没有办法使用<code>type(of:)</code>,也没有办法使用<code>required</code>。只能<code>as! Self</code>,并且在所有遵从这个协议的类声明前添加<code>final</code>，是有点丑陋，不过暂时没有更好的办法-.-</p>
+<hr>
+<h3 id="属性观察"><a href="#属性观察" class="headerlink" title="属性观察"></a>属性观察</h3><p><code>Swift</code>提供了两个属性观察的方法，<code>willSet</code>和<code>didSet</code>，顾名思义分别是在将要设置值和设置完成时执行。不过需要注意的是，属性观察和计算属性(<code>computed properties</code>)不能共存，即一个属性不可能既是计算属性，又包含属性观察。但是如果偏要勉强，也不是不行，书中给出的方法如下:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> number :<span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">get</span> &#123;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"get"</span>)</div><div class="line">            <span class="keyword">return</span> <span class="number">1</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">set</span> &#123;<span class="built_in">print</span>(<span class="string">"set"</span>)&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>: <span class="title">A</span> </span>&#123;</div><div class="line">    <span class="keyword">override</span> <span class="keyword">var</span> number: <span class="type">Int</span> &#123;</div><div class="line">        <span class="keyword">willSet</span> &#123;<span class="built_in">print</span>(<span class="string">"willSet"</span>)&#125;</div><div class="line">        <span class="keyword">didSet</span> &#123;<span class="built_in">print</span>(<span class="string">"didSet"</span>)&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>不过，自从用了<code>ReactiveCocoa</code>,<code>RxSwift</code>等响应式框架，你懂的。</p>
+<hr>
+<h3 id="lazy-修饰符和-lazy-方法"><a href="#lazy-修饰符和-lazy-方法" class="headerlink" title="lazy 修饰符和 lazy 方法"></a>lazy 修饰符和 lazy 方法</h3><p><code>Objective-C</code>中的<code>property</code>有<code>getter</code>和<code>setter</code>,一般情况下会使用<code>getter</code>进行延时加载以期提升性能。在<code>Swift</code>中，也有类似的操作，且比<code>Objective-C</code>更简单。那就是<code>lazy</code>关键字。<br></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClassA</span> </span>&#123;</div><div class="line">    <span class="built_in">lazy</span> <span class="keyword">var</span> str: <span class="type">String</span> = &#123;</div><div class="line">        <span class="keyword">let</span> str = <span class="string">"Hello"</span></div><div class="line">        <span class="built_in">print</span>(<span class="string">"只在首次访问输出"</span>)</div><div class="line">        <span class="keyword">return</span> str</div><div class="line">    &#125;()</div><div class="line">    <span class="comment">//or</span></div><div class="line">    <span class="comment">//lazy var str: String = "Hello</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>另外，书中还指出，<code>lazy</code>关键字还可以配合<code>map</code>,<code>filter</code>等函数使用，提高性能。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> data = <span class="number">1</span>...<span class="number">3</span></div><div class="line"><span class="keyword">let</span> result = data.<span class="built_in">map</span> &#123; (item) -&gt; <span class="type">Int</span> <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(<span class="string">"operate <span class="subst">\(item)</span>"</span>)</div><div class="line">    <span class="keyword">return</span> item * item</div><div class="line">&#125;</div><div class="line"><span class="built_in">print</span>(<span class="string">"ready"</span>)</div><div class="line">result.forEach&#123; <span class="built_in">print</span>(<span class="string">"after operation : <span class="subst">\($<span class="number">0</span>)</span>"</span>) &#125;</div><div class="line"><span class="built_in">print</span>(<span class="string">"done"</span>)</div><div class="line"><span class="comment">//打印结果：</span></div><div class="line"><span class="comment">//operate 1</span></div><div class="line"><span class="comment">//operate 2</span></div><div class="line"><span class="comment">//operate 3</span></div><div class="line"><span class="comment">//ready</span></div><div class="line"><span class="comment">//after operation : 1</span></div><div class="line"><span class="comment">//after operation : 4</span></div><div class="line"><span class="comment">//after operation : 9</span></div><div class="line"><span class="comment">//done</span></div></pre></td></tr></table></figure>
+<p>将<code>result</code>修改之后：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> result = data.<span class="built_in">lazy</span>.<span class="built_in">map</span> &#123; (item) -&gt; <span class="type">Int</span> <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(<span class="string">"operate <span class="subst">\(item)</span>"</span>)</div><div class="line">    <span class="keyword">return</span> item * item</div><div class="line">&#125;</div><div class="line"><span class="comment">//打印结果</span></div><div class="line"><span class="comment">//ready</span></div><div class="line"><span class="comment">//operate 1</span></div><div class="line"><span class="comment">//after operation : 1</span></div><div class="line"><span class="comment">//operate 2</span></div><div class="line"><span class="comment">//after operation : 4</span></div><div class="line"><span class="comment">//operate 3</span></div><div class="line"><span class="comment">//after operation : 9</span></div><div class="line"><span class="comment">//done</span></div></pre></td></tr></table></figure>
+<hr>
+<h3 id="Optional-Map"><a href="#Optional-Map" class="headerlink" title="Optional Map"></a>Optional Map</h3><p>在<code>Swift</code>中对于<code>map</code>使用最多的是针对<code>Array</code>，着这个章节里喵神提到了对于<code>Optional</code>也可以使用<code>map</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Optional</span>&lt;<span class="title">T</span>&gt; :</span></div><div class="line">    <span class="title">_Reflectable</span>, <span class="title">NilLiteralConvertible</span> &#123;</div><div class="line"></div><div class="line">    <span class="comment">//...</span></div><div class="line"></div><div class="line">    <span class="comment">/// If `self == nil`, returns `nil`.  Otherwise, returns `f(self!)`.</span></div><div class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">map</span>&lt;U&gt;<span class="params">(@noescape f: <span class="params">(T)</span></span></span> -&gt; <span class="type">U</span>) -&gt; <span class="type">U</span>?</div><div class="line"></div><div class="line">    <span class="comment">//...</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p><code>map</code>会根据输入的内容，若为nil则直接返回nil，反之则进入<code>f</code>闭包进行操作。<br><br>如以下代码，<code>Int?</code>无法直接和2相乘，是无法通过编译的。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> num: [<span class="type">Int</span>?] = [<span class="number">1</span>,<span class="number">2</span>,<span class="literal">nil</span>,<span class="number">4</span>]</div><div class="line"><span class="keyword">let</span> result = num.<span class="built_in">map</span>&#123; $<span class="number">0</span> * <span class="number">2</span> &#125;</div><div class="line"><span class="built_in">print</span>(result)</div></pre></td></tr></table></figure>
+<p>在此之前，我的办法只有使用<code>if let</code>。但是现在不同了，直接使用<code>Optional</code>的<code>map</code>:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> num: [<span class="type">Int</span>?] = [<span class="number">1</span>,<span class="number">2</span>,<span class="literal">nil</span>,<span class="number">4</span>]</div><div class="line"><span class="keyword">let</span> result = num.<span class="built_in">map</span>&#123; $<span class="number">0</span>.<span class="built_in">map</span>&#123; $<span class="number">0</span> * <span class="number">2</span> &#125; &#125;</div><div class="line"><span class="built_in">print</span>(result)</div><div class="line"><span class="comment">//打印结果：</span></div><div class="line"><span class="comment">//[Optional(2), Optional(4), nil, Optional(8)]</span></div></pre></td></tr></table></figure>
+<hr>
+<h3 id="Protocol-Extension"><a href="#Protocol-Extension" class="headerlink" title="Protocol Extension"></a>Protocol Extension</h3><p>协议扩展是<code>Swift</code>中一个非常强大的特性，这一节中喵神特别提到了一种特殊的情况，即包含类型推断和协议扩展中出现协议未定义函数的情况：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">A2</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">method1</span><span class="params">()</span></span> -&gt; <span class="type">String</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">A2</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">method1</span><span class="params">()</span></span> -&gt; <span class="type">String</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"hi"</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">method2</span><span class="params">()</span></span> -&gt; <span class="type">String</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"hi"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B2</span>: <span class="title">A2</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">method1</span><span class="params">()</span></span> -&gt; <span class="type">String</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"hello"</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">method2</span><span class="params">()</span></span> -&gt; <span class="type">String</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"hello"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> b2 = <span class="type">B2</span>()</div><div class="line"></div><div class="line">b2.method1() <span class="comment">// hello</span></div><div class="line">b2.method2() <span class="comment">// hello</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> a2 = b2 <span class="keyword">as</span> <span class="type">A2</span></div><div class="line"></div><div class="line">a2.method1() <span class="comment">// hello</span></div><div class="line">a2.method2() <span class="comment">// hi</span></div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>总结得到以下规则：<br></p>
+<ul>
+<li>若类型推断得到实际类型<ul>
+<li>类型中有具体实现则调用，否则调用协议扩展中的默认实现</li>
+</ul>
+</li>
+<li>若类型推断得到协议类型<ul>
+<li>若协议中定义了该函数，则规则同上</li>
+<li>若协议中未定义该函数，则调用协议扩展中的默认实现</li>
+</ul>
+</li>
+</ul>
+<hr>
+
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Reading/">Reading</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Protocol-Oriented-Programming/">Protocol-Oriented Programming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/03/SwiftTipsNote1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">
+        
+          《Swifter - Swift 开发者必备 Tips》读书笔记 1
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section> 
+
+
+    </div>
+    <!-- <div class="mb-search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+-->
+<footer id="footer">
+	<!-- <h1 class="footer-blog-title">
+			<a href="/">BBBBB&#39;s Land</a>
+		</h1> 
+	-->
+	<span class="copyright">
+		&copy; 2017 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
+		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
+	</span>
+</footer>
+    
+<script>
+  var disqus_shortname = 'hahnchan';
+  
+  var disqus_url = 'http://yoursite.com/2017/08/09/SwiftTipsNote2/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
