@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Swifter - Swift 开发者必备 Tips》读书笔记 3 | BBBBB&#39;s Land</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="单例先复习一下Objective-C里单例的写法： 12345678910111213@implementation MyManager+ (id)sharedManager &amp;#123;    static MyManager * staticInstance = nil;    static dispatch_once_t onceToken;    dispatch_once(&amp;amp;on">
+<meta name="keywords" content="Swift,ReactiveSwift,Objective-C Runtime,ReactiveCocoa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 3">
+<meta property="og:url" content="http://yoursite.com/2017/08/16/SwiftTipsNote3/index.html">
+<meta property="og:site_name" content="BBBBB&#39;s Land">
+<meta property="og:description" content="单例先复习一下Objective-C里单例的写法： 12345678910111213@implementation MyManager+ (id)sharedManager &amp;#123;    static MyManager * staticInstance = nil;    static dispatch_once_t onceToken;    dispatch_once(&amp;amp;on">
+<meta property="og:image" content="http://7vzn6p.com1.z0.glb.clouddn.com/15028734249519.jpg">
+<meta property="og:updated_time" content="2017-08-16T09:20:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 3">
+<meta name="twitter:description" content="单例先复习一下Objective-C里单例的写法： 12345678910111213@implementation MyManager+ (id)sharedManager &amp;#123;    static MyManager * staticInstance = nil;    static dispatch_once_t onceToken;    dispatch_once(&amp;amp;on">
+<meta name="twitter:image" content="http://7vzn6p.com1.z0.glb.clouddn.com/15028734249519.jpg">
+  
+  
+    <link rel="icon" href="http://bloodshed.qiniudn.com/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+<body>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
+</div>
+<header id="header">
+    <div class = "blog-info">
+	<h1 class="blog-title">
+		<a href="/">BBBBB&#39;s Land</a>
+	</h1></br>
+	Lord don&#39;t move that mountain.
+	</div>
+
+
+	
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/about/index.html">About</a></li>
+			<!-- <li><a id="nav-search-btn" class="nav-icon" title="Search"></a></li> -->
+			
+			
+		</ul>
+		
+		
+		
+		
+	
+	</nav>
+	
+	<!-- <div id="search-form-wrap">
+		<form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+	</div> -->
+	
+	
+</header>
+
+
+    <div id="main">
+      <article id="post-SwiftTipsNote3" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/08/16/SwiftTipsNote3/" class="article-date">
+  <time datetime="2017-08-16T03:08:28.000Z" itemprop="datePublished">2017-08-16</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/08/16/SwiftTipsNote3/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 class="article-title entry-title" itemprop="name">
+      《Swifter - Swift 开发者必备 Tips》读书笔记 3
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+    	<h3 id="单例"><a href="#单例" class="headerlink" title="单例"></a>单例</h3><p>先复习一下<code>Objective-C</code>里单例的写法：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">MyManager</span></span></div><div class="line">+ (<span class="keyword">id</span>)sharedManager &#123;</div><div class="line">    <span class="keyword">static</span> MyManager * staticInstance = <span class="literal">nil</span>;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</div><div class="line"></div><div class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</div><div class="line">        staticInstance = [[<span class="keyword">self</span> alloc] init];</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> staticInstance;</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>核心在于使用<code>dispatch_once</code>保证<code>staticInstance</code>只被初始化一次，确保线程安全。<br><br>到了<code>Swift</code>中，我们大可以直接从<code>Objective-C</code>“翻译”一份实现：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyManager</span> </span>&#123;</div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">sharedManager</span> : <span class="title">MyManager</span> </span>&#123;</div><div class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">Static</span> </span>&#123;</div><div class="line">            <span class="keyword">static</span> <span class="keyword">var</span> onceToken : dispatch_once_t = <span class="number">0</span></div><div class="line">            <span class="keyword">static</span> <span class="keyword">var</span> staticInstance : <span class="type">MyManager</span>? = <span class="literal">nil</span></div><div class="line">        &#125;</div><div class="line"></div><div class="line">        dispatch_once(&amp;<span class="type">Static</span>.onceToken) &#123;</div><div class="line">            <span class="type">Static</span>.staticInstance = <span class="type">MyManager</span>()</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="type">Static</span>.staticInstance!</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>但是在<code>Swift 3</code>中<code>dispatch_once</code>被移除了，不过使用<code>let</code>关键字同样可以保证线程安全，所以写法变成了:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyManager</span> </span>&#123;</div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">shared</span> : <span class="title">MyManager</span> </span>&#123;</div><div class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">Static</span> </span>&#123;</div><div class="line">            <span class="keyword">static</span> <span class="keyword">let</span> sharedInstance : <span class="type">MyManager</span> = <span class="type">MyManager</span>()</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="type">Static</span>.sharedInstance</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>但这还不是最佳实践，公认的没有嵌套结构简明的最佳实践是以下写法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">let</span> sharedInstance = <span class="type">MyManager</span>()</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyManager</span>  </span>&#123;</div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">shared</span> : <span class="title">MyManager</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> sharedInstance</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>在以上代码中，之所以要把<code>let</code>赋值放在全局，是因为在<code>Swift 1.2</code>之前类变量不支持存储变量，在<code>Swift 1.2</code>及之后的版本中，就可以改成以下最终的写法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyManager</span>  </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> shared = <span class="type">MyManager</span>()</div><div class="line">    <span class="keyword">private</span> <span class="keyword">init</span>() &#123;&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p><code>shared</code>作为类变量，在初始化的时候会被包装在<code>swift_once_block_invoke</code>中以保证唯一性。同时给初始化函数添加<code>private</code>关键字保证了在其他作用域中该初始化函数不会被调用，保证了<code>shared</code>的唯一性。</p>
+<hr>
+<h3 id="条件编译"><a href="#条件编译" class="headerlink" title="条件编译"></a>条件编译</h3><p><code>C</code>中有<code>#if</code>,<code>#ifdef</code>等条件编译语句，<code>Swift</code>中没有宏，但是也有类似的：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#<span class="keyword">if</span> &lt;condition&gt;</div><div class="line"></div><div class="line">#elseif &lt;condition&gt;</div><div class="line"></div><div class="line">#<span class="keyword">else</span></div><div class="line"></div><div class="line">#endif</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>书中给出了一些<code>Swift</code>內建的条件</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>可选参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>os()</td>
+<td>macOS, iOS, tvOS, watchOS, Linux</td>
+</tr>
+<tr>
+<td>arch()</td>
+<td>arm(32bit CPU), arm64(64bit CPU), i386(32bit simulator), x86_64(64bit simulator)</td>
+</tr>
+<tr>
+<td>swift()</td>
+<td>&gt;= 某个版本</td>
+</tr>
+</tbody>
+</table>
+<p>分别以喵神的图片加载库<code>Kingfisher</code>代码和我自己项目中的代码为例,一目了然：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//  Kingfisher.swift</span></div><div class="line"><span class="comment">//  Kingfisher</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//  Created by Wei Wang on 16/9/14.</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//  Copyright (c) 2017 Wei Wang &lt;onevcat@gmail.com&gt;</span></div><div class="line"></div><div class="line">#<span class="keyword">if</span> os(macOS)</div><div class="line">    <span class="keyword">import</span> AppKit</div><div class="line">    <span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">Image</span> = <span class="type">NSImage</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">Color</span> = <span class="type">NSColor</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">ImageView</span> = <span class="type">NSImageView</span></div><div class="line">    <span class="keyword">typealias</span> <span class="type">Button</span> = <span class="type">NSButton</span></div><div class="line">#<span class="keyword">else</span></div><div class="line">    <span class="keyword">import</span> UIKit</div><div class="line">    <span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">Image</span> = <span class="type">UIImage</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">Color</span> = <span class="type">UIColor</span></div><div class="line">    #<span class="keyword">if</span> !os(watchOS)</div><div class="line">    <span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">ImageView</span> = <span class="type">UIImageView</span></div><div class="line">    <span class="keyword">typealias</span> <span class="type">Button</span> = <span class="type">UIButton</span></div><div class="line">    #endif</div><div class="line">#endif</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//  Network.swift</span></div><div class="line"><span class="comment">//  Tupai</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//  Created by Hahn.Chan on 13/06/2017.</span></div><div class="line"><span class="comment">//  Copyright © 2017 Hahn Chan. All rights reserved.</span></div><div class="line"><span class="comment">//</span></div><div class="line"></div><div class="line"><span class="comment">//some code...</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> baseURL: <span class="type">URL</span> &#123;</div><div class="line">        #<span class="keyword">if</span> <span class="type">DEBUG</span></div><div class="line">            <span class="keyword">return</span> <span class="type">URL</span>(string: <span class="string">"http://192.168.31.11:8080/v3"</span>)!</div><div class="line">        #<span class="keyword">else</span></div><div class="line">            <span class="keyword">return</span> <span class="type">URL</span>(string: <span class="string">"http://ps.tupppai.com/v3"</span>)!</div><div class="line">        #endif</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>如果需要自定义编译符号，则需在<code>Build Setting</code> -&gt; <code>Swift Compiler - Custom Flags</code> -&gt; <code>Other Swift Flags</code>中添加</p>
+<hr>
+<h3 id="objc-和-dynamic"><a href="#objc-和-dynamic" class="headerlink" title="@objc 和 dynamic"></a>@objc 和 dynamic</h3><p>由于<code>Objective-C</code>是一门基于运行时<code>Runtime</code>的动态语言，遵循<code>KVC</code>以及<code>Dynamic Dispatch</code>(动态派发，即在运行时确定实际调用的方法)；而<code>Swift</code>是静态语言，他的属性和函数在编译时已经确定。那么在使用<code>Objective-C</code>的代码或特性调用<code>Swift</code>时，就会因为找不到需要的运行时信息而导致运行失败。<br>此时你需要在暴露给<code>Objective-C</code>的<code>Swift</code>的类、属性、函数、协议前添加<code>@objc</code>。不过假如你的类是<code>NSObject</code>的子类，那么<code>Swift</code>会默认给所有<strong>非</strong><code>private</code>的属性、函数添加隐式的<code>@objc</code>。以我项目中的代码为例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//  WebViewController.swift</span></div><div class="line"><span class="comment">//  Tupai</span></div><div class="line"><span class="comment">//</span></div><div class="line"><span class="comment">//  Created by Hahn.Chan on 02/03/2017.</span></div><div class="line"><span class="comment">//  Copyright © 2017 Hahn Chan. All rights reserved.</span></div><div class="line"><span class="comment">//</span></div><div class="line"></div><div class="line"> <span class="comment">//some code...</span></div><div class="line"></div><div class="line"><span class="keyword">fileprivate</span> <span class="function"><span class="keyword">func</span> <span class="title">setupNavigationBar</span><span class="params">(canGoBack: Bool)</span></span> &#123;</div><div class="line">        <span class="keyword">if</span> canGoBack &#123;</div><div class="line">            <span class="comment">//some code...</span></div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            navigationItem.leftBarButtonItems = [<span class="type">UIBarButtonItem</span>.<span class="keyword">init</span>(image: #imageLiteral(resourceName: <span class="string">"ic_back copy 2"</span>), style: .plain, target: <span class="keyword">self</span>, action: #selector(close))]</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line"> <span class="comment">//some code...</span></div><div class="line"> </div><div class="line"> <span class="meta">@objc</span> <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">close</span><span class="params">()</span></span> &#123;</div><div class="line">        webViewModel.navigationBus.popViewModel(animated: <span class="literal">true</span>)</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>可以看到我使用了<code>#selector</code>这一<code>Objective-C Runtime</code>的特性，那么<code>close</code>这个函数就必须通过之前提到的方法暴露给<code>Objective-C Runtime</code>。虽然<code>WebViewController</code>是<code>UIViewController</code>的子类，但是我不想把这个函数暴露给外部的作用域，所以我使用了<code>private</code>关键字，故而我需要手动添加<code>@objc</code>。如果我把<code>@objc</code>去掉，则会报错没有将该方法暴露(not exposed to)给<code>Objective-C</code>：<br><img src="http://7vzn6p.com1.z0.glb.clouddn.com/15028734249519.jpg" alt=""><br>接着喵神又指出，<code>@objc</code>不能完全保证属性或方法会变成<code>Dynamic Dispatch</code>，<code>Swift</code>依然可能会将添加了<code>@objc</code>的属性或方法优化成静态调用。如果要使用<code>Objective-C</code>里的<code>method swizzling</code>等特性，则需要在方法名前添加<code>dynamic</code>。<br><br>关于这一点，在刚开始使用<code>ReactiveCocoa 5</code>的时候，在这上面踩了坑。具体可以点击链接查看：<a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/3382" target="_blank" rel="external">issue with Interception of a function in RAC5 · Issue #3382 · ReactiveCocoa/ReactiveCocoa</a></p>
+<hr>
+<h3 id="可选协议和协议扩展"><a href="#可选协议和协议扩展" class="headerlink" title="可选协议和协议扩展"></a>可选协议和协议扩展</h3><p><code>Swift</code>中的<code>protocol</code>与<code>Objective-C</code>中的不同，没有<code>optional</code>，即协议所有定义的方法都必须实现。如果想要定义包含<code>optional</code>方法的协议，则需在协议声明和方法声明前都添加<code>@objc</code>,并且该协议只能由<code>class</code>实现，同时在实现中还要在方法声明前添加<code>@objc</code>：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">protocol</span> <span class="title">OptionalProtocol</span> </span>&#123;</div><div class="line">    <span class="meta">@objc</span> <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">optionalMethod</span><span class="params">()</span></span>  <span class="comment">// 可选</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">necessaryMethod</span><span class="params">()</span></span>          <span class="comment">// 必须</span></div><div class="line">    <span class="meta">@objc</span> <span class="keyword">optional</span> <span class="function"><span class="keyword">func</span> <span class="title">anotherOptionalMethod</span><span class="params">()</span></span> <span class="comment">// 可选</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>另外，从<code>Swift 2.0</code>开始，<code>Swift</code>引入了协议扩展，即可以在协议扩展中给出协议的方法的默认实现，那么在某种意义上，拥有默认实现的方法也相当于是<code>optional</code>的了。如果想要<code>optional</code>的协议方法，又不想写<code>@objc</code>，那么就在协议扩展里给一个什么事儿都不做的默认实现吧！</p>
+
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Reading/">Reading</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-Runtime/">Objective-C Runtime</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactiveCocoa/">ReactiveCocoa</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactiveSwift/">ReactiveSwift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/09/SwiftTipsNote2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">
+        
+          《Swifter - Swift 开发者必备 Tips》读书笔记 2
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section> 
+
+
+    </div>
+    <!-- <div class="mb-search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+-->
+<footer id="footer">
+	<!-- <h1 class="footer-blog-title">
+			<a href="/">BBBBB&#39;s Land</a>
+		</h1> 
+	-->
+	<span class="copyright">
+		&copy; 2017 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
+		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
+	</span>
+</footer>
+    
+<script>
+  var disqus_shortname = 'hahnchan';
+  
+  var disqus_url = 'http://yoursite.com/2017/08/16/SwiftTipsNote3/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
