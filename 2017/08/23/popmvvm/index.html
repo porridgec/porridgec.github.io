@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Protocol-Oriented Programming 与 MVVM 实践 | BBBBB&#39;s Land</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="[TOC] 引子protocol在Objective-C中已经存在，但是在Swift中，它的地位上升到了一个前所未有的新高度。在@Cwift的《Swift：面向协议编程》一书中，作者把protocol,struct以及enum称为Swift三杰。同时，通过查看Swift的源码我们可以发现，诸如Array,Dictionary等类型，全是通过使用struct配合protocol重新实现的，足见在Sw">
+<meta name="keywords" content="MVVM,Protocol-Oriented Programming,ReactiveSwift,ReactiveCocoa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Protocol-Oriented Programming 与 MVVM 实践">
+<meta property="og:url" content="http://yoursite.com/2017/08/23/popmvvm/index.html">
+<meta property="og:site_name" content="BBBBB&#39;s Land">
+<meta property="og:description" content="[TOC] 引子protocol在Objective-C中已经存在，但是在Swift中，它的地位上升到了一个前所未有的新高度。在@Cwift的《Swift：面向协议编程》一书中，作者把protocol,struct以及enum称为Swift三杰。同时，通过查看Swift的源码我们可以发现，诸如Array,Dictionary等类型，全是通过使用struct配合protocol重新实现的，足见在Sw">
+<meta property="og:updated_time" content="2017-08-23T11:06:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Protocol-Oriented Programming 与 MVVM 实践">
+<meta name="twitter:description" content="[TOC] 引子protocol在Objective-C中已经存在，但是在Swift中，它的地位上升到了一个前所未有的新高度。在@Cwift的《Swift：面向协议编程》一书中，作者把protocol,struct以及enum称为Swift三杰。同时，通过查看Swift的源码我们可以发现，诸如Array,Dictionary等类型，全是通过使用struct配合protocol重新实现的，足见在Sw">
+  
+  
+    <link rel="icon" href="http://bloodshed.qiniudn.com/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+<body>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
+</div>
+<header id="header">
+    <div class = "blog-info">
+	<h1 class="blog-title">
+		<a href="/">BBBBB&#39;s Land</a>
+	</h1></br>
+	Lord don&#39;t move that mountain.
+	</div>
+
+
+	
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/about/index.html">About</a></li>
+			<!-- <li><a id="nav-search-btn" class="nav-icon" title="Search"></a></li> -->
+			
+			
+		</ul>
+		
+		
+		
+		
+	
+	</nav>
+	
+	<!-- <div id="search-form-wrap">
+		<form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+	</div> -->
+	
+	
+</header>
+
+
+    <div id="main">
+      <article id="post-popmvvm" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/08/23/popmvvm/" class="article-date">
+  <time datetime="2017-08-23T06:39:32.000Z" itemprop="datePublished">2017-08-23</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/08/23/popmvvm/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 class="article-title entry-title" itemprop="name">
+      Protocol-Oriented Programming 与 MVVM 实践
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+    	<p>[TOC]</p>
+<h3 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h3><p><code>protocol</code>在<code>Objective-C</code>中已经存在，但是在<code>Swift</code>中，它的地位上升到了一个前所未有的新高度。在<a href="http://weibo.com/277195544" target="_blank" rel="external">@Cwift</a>的《Swift：面向协议编程》一书中，作者把<code>protocol</code>,<code>struct</code>以及<code>enum</code>称为<code>Swift三杰</code>。同时，通过查看<code>Swift</code>的源码我们可以发现，诸如<code>Array</code>,<code>Dictionary</code>等类型，全是通过使用<code>struct</code>配合<code>protocol</code>重新实现的，足见在<code>Swift</code>中他们的强大。<br><br><code>Object-Oriented Programming</code>我们已经非常熟悉了，其三大特征：<em>继承</em>、<em>多态</em>、<em>封装</em>我们也耳熟能详。但过于依赖继承，极大可能会面临<code>菱形问题</code>的困扰。<code>protocol</code>的出现，解决了这一问题。<br><br>而<code>MVVM</code>,事实上它和<code>Protocol-Oriented Programming</code>并没有任何直接的联系。只不过是从去年开始，我所有的项目都是使用的<code>MVVM</code>架构。我之前的<code>MVVM</code>写法，是学习<a href="http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/" target="_blank" rel="external">MVVM With ReactiveCocoa - 雷纯锋的技术博客</a>这一篇文章，也写了一个<code>Swift</code>的demo<a href="https://github.com/porridgec/BBMVVMProject" target="_blank" rel="external">porridgec/BBMVVMProject: an MVVM demo with RAC 5</a>。<br></p>
+<a id="more"></a>
+<h3 id="Model-View-ViewModel"><a href="#Model-View-ViewModel" class="headerlink" title="Model-View-ViewModel"></a>Model-View-ViewModel</h3><p>在这个架构中，核心在于<code>viewModel</code>。所有业务逻辑都放到<code>viewModel</code>中，同时不直接对<code>viewController</code>进行导航相关的操作，而是借助一个<code>navigationEventBus</code>直接对<code>viewModel</code>进行<code>push</code>,<code>pop</code>等操作，具体实现可以参照我的demo，这里只给出核心代码以供说明:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  NavigationEventBus.swift</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">NavigationEventBus</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> shared: <span class="type">NavigationEventBus</span> = <span class="type">NavigationEventBus</span>()</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">push</span><span class="params">(viewModel: BaseViewModel, animated: Bool)</span></span> &#123;&#125;</div><div class="line">    </div><div class="line">    <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">popViewModel</span><span class="params">(animated: Bool)</span></span> &#123;&#125;</div><div class="line">    </div><div class="line">    <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">popToRootViewModel</span><span class="params">(animated: Bool)</span></span> &#123;&#125;</div><div class="line">    </div><div class="line">    <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">present</span><span class="params">(viewModel: BaseViewModel, animated: Bool, completion: <span class="params">(<span class="params">()</span></span></span></span> -&gt; <span class="type">Void</span>)?) &#123;&#125;</div><div class="line">    </div><div class="line">    <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">dismissViewModel</span><span class="params">(aniamted: Bool, completion: <span class="params">(<span class="params">()</span></span></span></span> -&gt; <span class="type">Void</span>)?) &#123;&#125;</div><div class="line">    </div><div class="line">    <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">reset</span><span class="params">(rootViewModel: BaseViewModel)</span></span> &#123;&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  NavigationControllerStack.swift</span></div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">registerNavigationHooks</span><span class="params">()</span></span> &#123;</div><div class="line">        </div><div class="line">        navigationEventBus</div><div class="line">            .reactive</div><div class="line">            .signal(<span class="keyword">for</span>: #selector(navigationEventBus.push(viewModel:animated:)))</div><div class="line">            .observeValues &#123; [<span class="keyword">weak</span> <span class="keyword">self</span>](params) <span class="keyword">in</span></div><div class="line">                <span class="keyword">if</span> <span class="keyword">let</span> strongSelf = <span class="keyword">self</span>, <span class="keyword">let</span> viewModel = params[<span class="number">0</span>] <span class="keyword">as</span>? <span class="type">BBViewModel</span>, <span class="keyword">let</span> animated = params[<span class="number">1</span>] <span class="keyword">as</span>? <span class="type">Bool</span> &#123;</div><div class="line">                    strongSelf.navigationControllers.last?.pushViewController(strongSelf.router.viewControllerFor(viewModel: viewModel),</div><div class="line">                                                                               animated: animated)</div><div class="line">                &#125;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="comment">//other operations...  </span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>在<code>ReactiveCocoa</code>的帮助下，当<code>navigationEvent</code>执行<code>push</code>等操作时，我可以收到对应的信号，从而对相应的<code>viewContrller</code>进行操作。<br><br>在这里，所有的<code>viewModel</code>和<code>viewController</code>都是通过继承来实现的。而在通过<code>navigationEventBus</code>导航的机制中，存在一步通过你传入的<code>viewModel</code>生成对应的<code>viewController</code>的操作（当然啦，虽然直接操作的是<code>viewModel</code>，但终究还是要对<code>viewController</code>进行操作）:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  Router.swift</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">viewControllerFor</span><span class="params">(viewModel: BaseViewModel)</span></span> -&gt; <span class="type">UIViewController</span> &#123;</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> viewControllerClass = viewModelMappingDict[viewModel.className]</div><div class="line">            <span class="keyword">else</span> &#123;</div><div class="line">                <span class="built_in">fatalError</span>(<span class="string">"equivalent viewController for <span class="subst">\([viewModel.className])</span> does not exsit."</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> viewControllerClass == <span class="type">ChatViewController</span>.classForCoder() &#123;<span class="comment">//the ugly</span></div><div class="line">            <span class="keyword">return</span> <span class="type">ChatViewController</span>.<span class="keyword">init</span>(viewModel <span class="keyword">as</span>! <span class="type">IMChatViewModel</span>)</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> viewControllerClass == <span class="type">ImagePickerViewController</span>.classForCoder() &#123;</div><div class="line">            <span class="keyword">let</span> pickerViewModel = viewModel <span class="keyword">as</span>! <span class="type">ImagePickerViewModel</span></div><div class="line">            <span class="keyword">return</span> <span class="type">ImagePickerViewController</span>.<span class="keyword">init</span>(pickerViewModel)</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">let</span> viewController = (viewControllerClass <span class="keyword">as</span>! <span class="type">BaseViewController</span>.<span class="type">Type</span>).<span class="keyword">init</span>(viewModel: viewModel)</div><div class="line">            viewModel.viewController = viewController</div><div class="line">            <span class="keyword">return</span> viewController</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这是最近一个项目中由<code>viewModel</code>生成<code>viewController</code>的代码。实现原理就是在<code>router</code>中维护一个以<code>viewModel</code>与<code>viewController</code>为键值对的字典，传入<code>viewModel</code>后，寻找对应的<code>viewController</code>，然后初始化。实际上，在最初的设计中，所有的<code>viewModel</code>和<code>viewController</code>都是继承自我自己的基类的，所有<code>viewController</code>的初始化都需要执行父类中的初始化方法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  BaseViewController.swift</span></div><div class="line"><span class="keyword">required</span> <span class="keyword">init</span>(viewModel: <span class="type">BaseViewModel</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.viewModel = viewModel</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(nibName: viewModel.nibName, bundle: <span class="type">Bundle</span>.main)</div><div class="line">        reactive.trigger(<span class="keyword">for</span>: #selector(viewDidLoad)).observeValues &#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] <span class="keyword">in</span></div><div class="line">            <span class="keyword">if</span> <span class="keyword">let</span> strongSelf = <span class="keyword">self</span> &#123;</div><div class="line">                strongSelf.bindViewModel()</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="Protocol-Oriented-Programming"><a href="#Protocol-Oriented-Programming" class="headerlink" title="Protocol-Oriented Programming"></a>Protocol-Oriented Programming</h3><p>一切看上去都很美好，但是现实却给了我一记重锤。在引入某些第三方库时，不可避免需要使用到库里自带的<code>viewController</code>，那么势必就不可能让他继承我的<code>BaseViewController</code>，所以才有了之前代码中的前两个<code>if-else</code>的分支，注释我也只能很无奈地写了个<code>//the ugly</code>。所以那个时候我在想，能否把<code>viewController</code>由继承改为协议呢？当时没有条件来踩这个坑，现在新项目正好给了我一个机会。<br><br>想法很简单，分别为<code>viewModel</code>和<code>viewController</code>定义协议：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">ViewModelType</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">var</span> typeName: <span class="type">String</span> &#123; <span class="keyword">get</span> &#125;</div><div class="line">    <span class="keyword">var</span> name: <span class="type">String</span> &#123; <span class="keyword">get</span> &#125;</div><div class="line">    <span class="keyword">var</span> navigationTitle: <span class="type">String</span>? &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">RoutableViewControllerType</span>: <span class="title">class</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="keyword">var</span> viewModel: <span class="type">ViewModelType</span>! &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">loadFrom</span><span class="params">(<span class="number">_</span> viewModel: ViewModelType)</span></span> -&gt; <span class="type">Self</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">bind</span><span class="params">(<span class="number">_</span> viewModel: ViewModelType)</span></span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>RoutableViewControllerType</code>协议内有一个变量用于存储<code>viewModel</code>,一个通过<code>viewModel</code>得到实例的类方法和绑定<code>viewModel</code>的实例方法。然后我又想，对于绝大部分自己写的<code>viewController</code>，他们完全可以像继承一样用一个共同的<code>loadFrom(_ viewModel: ViewModelType)</code>；而第三方库则可以根据具体情况来实现不同的<code>loadFrom(_ viewModel: ViewModelType)</code>。这时就需要用到<code>Swift</code>中强大的<code>Protocol Extensions</code>：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">RoutableViewControllerType</span> <span class="title">where</span> <span class="title">Self</span>: <span class="title">UIViewController</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">loadFrom</span><span class="params">(<span class="number">_</span> viewModel: ViewModelType)</span></span> -&gt; <span class="type">Self</span> &#123;</div><div class="line">        <span class="keyword">let</span> vc = <span class="keyword">self</span>.<span class="keyword">init</span>()</div><div class="line">        vc.viewModel = viewModel</div><div class="line">        vc.reactive.trigger(<span class="keyword">for</span>: #selector(viewDidLoad)).observeValues &#123; () <span class="keyword">in</span></div><div class="line">            vc.bind(viewModel)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> vc</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>router</code>中由<code>viewModel</code>得到<code>viewController</code>的函数也改写为：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">viewController</span><span class="params">(<span class="keyword">for</span> viewModel: ViewModelType)</span></span> -&gt; <span class="type">UIViewController</span> &#123;</div><div class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> viewControllerClass = viewModelMappingDict[viewModel.name] <span class="keyword">else</span> &#123;</div><div class="line">            <span class="built_in">fatalError</span>(<span class="string">"equivalent viewController for <span class="subst">\([viewModel.name])</span> does not exsit."</span>)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">let</span> viewController = viewControllerClass.loadFrom(viewModel)</div><div class="line">        <span class="keyword">return</span> viewController <span class="keyword">as</span>! <span class="type">UIViewController</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>那么现在写一个新的页面，比如一个<code>MainEntryViewController</code>，操作如下:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  MainEntryViewController.swift</span></div><div class="line"></div><div class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MainEntryViewController</span>: <span class="title">UIViewController</span>, <span class="title">RoutableViewControllerType</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="keyword">var</span> viewModel: <span class="type">ViewModelType</span>!</div><div class="line">    <span class="keyword">var</span> mainEntryViewModel: <span class="type">MainEntryViewModel</span> &#123;</div><div class="line">        <span class="keyword">return</span> viewModel <span class="keyword">as</span>! <span class="type">MainEntryViewModel</span></div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">bind</span><span class="params">(<span class="number">_</span> viewModel: ViewModelType)</span></span> &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"binded"</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后再写一个对应的<code>MainEntryViewModel</code>:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  MainEntryViewModel.swift</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MainEntryViewModel</span>: <span class="title">ViewModelType</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> navigationTitle: <span class="type">String</span>? = <span class="string">"Main"</span></div><div class="line">    </div><div class="line">    <span class="keyword">init</span>() &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"MainEntryViewModel init"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>并在<code>router</code>中维护的字典添加键值对<code>[MainEntryViewModel.typeName : MainEntryViewController.self]</code>，就可以直接通过<code>navigationEventBus</code>来操作<code>MainEntryViewModel</code>的实例了。比如我要把它作为app的<code>rootViewController</code>：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  AppDelegate.swift</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">application</span><span class="params">(<span class="number">_</span> application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">        <span class="comment">// Override point for customization after application launch.</span></div><div class="line">        window = <span class="type">UIWindow</span>.<span class="keyword">init</span>(frame: <span class="type">UIScreen</span>.main.bounds)</div><div class="line">        window?.makeKeyAndVisible()</div><div class="line">        navigationEventBus.reset(rootViewModel: <span class="type">MainEntryViewModel</span>())</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>当然，如果需要用到第三方库中的<code>viewController</code>，与以上步骤唯一不同的地方，就是需要自己实现<code>loadFrom(_ viewModel: ViewModelType)</code>。<br><br>至此，实际上这一次的<code>viewController</code>协议化已经算是成功了，但我还有些不太满意的地方，就是<code>RoutableViewControllerType</code>协议中的<code>viewModel</code>变量，是以<code>ViewModelType</code>协议作为类型的，那么就导致了在所有遵循了<code>RoutableViewControllerType</code>协议的<code>viewController</code>中都势必会存在类似以下语句：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> viewModel: <span class="type">ViewModelType</span>!</div><div class="line"><span class="keyword">var</span> mainEntryViewModel: <span class="type">MainEntryViewModel</span> &#123;</div><div class="line">    <span class="keyword">return</span> viewModel <span class="keyword">as</span>! <span class="type">MainEntryViewModel</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">bind</span><span class="params">(<span class="number">_</span> viewModel: ViewModelType)</span></span> &#123;</div><div class="line">    <span class="comment">//some code</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>还是以<code>MainEntryViewModel</code> \ <code>MainEntryViewController</code>为例说明，即使<code>MainEntryViewController</code>的实例是通过<code>MainEntryViewModel</code>的实例得到的，并且<code>MainEntryViewController</code>的实例变量就是<code>MainEntryViewModel</code>的实例，但由于<code>RoutableViewControllerType</code>协议声明的<code>viewModel</code>类型是<code>ViewModelType</code>，所以必须要写后面那句强制类型转换的计算属性来获取<code>MainEntryViewModel</code>类型的<code>viewModel</code>。<br><br>那么有没有办法解决呢？我想到了<code>associatedtype</code>。<br></p>
+<p><code>RoutableViewControllerType</code>和<code>MainEntryViewController</code>做出如下修改：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  RoutableViewControllerType.swift</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">RoutableViewControllerType</span>: <span class="title">class</span> </span>&#123;</div><div class="line">    associatedtype <span class="type">ViewModel</span>: <span class="type">ViewModelType</span></div><div class="line">    </div><div class="line">    <span class="keyword">var</span> viewModel: <span class="type">ViewModel</span>! &#123; <span class="keyword">get</span> <span class="keyword">set</span> &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">loadFrom</span><span class="params">(<span class="number">_</span> viewModel: ViewModel)</span></span> -&gt; <span class="type">Self</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">bind</span><span class="params">(<span class="number">_</span> viewModel: ViewModel)</span></span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">RoutableViewControllerType</span> <span class="title">where</span> <span class="title">Self</span>: <span class="title">UIViewController</span> </span>&#123;</div><div class="line">    <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">loadFrom</span><span class="params">(<span class="number">_</span> viewModel: ViewModel)</span></span> -&gt; <span class="type">Self</span> &#123;</div><div class="line">        <span class="keyword">let</span> vc = <span class="keyword">self</span>.<span class="keyword">init</span>()</div><div class="line">        vc.viewModel = viewModel</div><div class="line">        vc.reactive.trigger(<span class="keyword">for</span>: #selector(viewDidLoad)).observeValues &#123; () <span class="keyword">in</span></div><div class="line">            vc.bind(viewModel)</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> vc</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  MainEntryViewController.swift</span></div><div class="line"></div><div class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MainEntryViewController</span>: <span class="title">UIViewController</span>, <span class="title">RoutableViewControllerType</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="keyword">var</span> viewModel: <span class="type">MainEntryViewModel</span>!</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">bind</span><span class="params">(<span class="number">_</span> viewModel: MainEntryViewModel)</span></span> &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"binded"</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>到目前为止，一切都按照预期进行。但是在<code>router</code>中，报错了。之前提到过，我们需要维护一个<code>viewModel</code>与<code>viewController</code>的字典，他长这样：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  Router.swift</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">let</span> viewModelMappingDict: [<span class="type">String</span> : <span class="type">RoutableViewControllerType</span>.<span class="type">Type</span>] =</div><div class="line">        [<span class="type">MainEntryViewModel</span>.typeName : <span class="type">MainEntryViewController</span>.<span class="keyword">self</span>]</div></pre></td></tr></table></figure>
+<p>我们直接把<code>RoutableViewControllerType</code>协议作为一个类型来使用，问题恰恰就出在这里：<br><br><strong>包含<code>associatedtype</code>的协议无法直接作为类型使用！！！</strong><br><br>这也是我在之前的读书笔记中有写到的<a href="https://hahnchan.info/2017/08/01/SwiftTipsNote0/" target="_blank" rel="external">《Swifter - Swift 开发者必备 Tips》读书笔记 0 | BBBBB’s Land</a>。解决办法，暂时还没有想到。但应该还是从<code>viewModel</code>到<code>viewController</code>的映射上做文章，因为前面协议的修改已经是没有问题的了。<br><br>不过，就目前的程度来看，不完美的地方也就是需要写一次强制类型转换而已了，这一次协议化我自认为还是成功了的。<br><br>以上。</p>
+
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Working/">Working</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVVM/">MVVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Protocol-Oriented-Programming/">Protocol-Oriented Programming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactiveCocoa/">ReactiveCocoa</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactiveSwift/">ReactiveSwift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/18/SwiftTipsNote4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">
+        
+          《Swifter - Swift 开发者必备 Tips》读书笔记 4
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section> 
+
+
+    </div>
+    <!-- <div class="mb-search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+-->
+<footer id="footer">
+	<!-- <h1 class="footer-blog-title">
+			<a href="/">BBBBB&#39;s Land</a>
+		</h1> 
+	-->
+	<span class="copyright">
+		&copy; 2017 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
+		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
+	</span>
+</footer>
+    
+<script>
+  var disqus_shortname = 'hahnchan';
+  
+  var disqus_url = 'http://yoursite.com/2017/08/23/popmvvm/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

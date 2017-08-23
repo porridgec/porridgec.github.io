@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Swifter - Swift 开发者必备 Tips》读书笔记 4 | BBBBB&#39;s Land</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="内存管理，weak 和 unowned唔，内存管理是一块很硬很硬很硬很硬的骨头（虽然在ARC时代已经没有以前那么硬了），在这一节中只介绍了简单的Swift中避免循环引用的操作。首先，什么是循环引用？最简单来讲，就是你引用了我，我又引用了你。结合书中的代码进行解释: 123456789101112131415161718192021class A: NSObject &amp;#123;    let b:">
+<meta name="keywords" content="Swift,ARC,内存管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 4">
+<meta property="og:url" content="http://yoursite.com/2017/08/18/SwiftTipsNote4/index.html">
+<meta property="og:site_name" content="BBBBB&#39;s Land">
+<meta property="og:description" content="内存管理，weak 和 unowned唔，内存管理是一块很硬很硬很硬很硬的骨头（虽然在ARC时代已经没有以前那么硬了），在这一节中只介绍了简单的Swift中避免循环引用的操作。首先，什么是循环引用？最简单来讲，就是你引用了我，我又引用了你。结合书中的代码进行解释: 123456789101112131415161718192021class A: NSObject &amp;#123;    let b:">
+<meta property="og:image" content="http://7vzn6p.com1.z0.glb.clouddn.com/15030404650556.jpg">
+<meta property="og:updated_time" content="2017-08-23T07:03:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 4">
+<meta name="twitter:description" content="内存管理，weak 和 unowned唔，内存管理是一块很硬很硬很硬很硬的骨头（虽然在ARC时代已经没有以前那么硬了），在这一节中只介绍了简单的Swift中避免循环引用的操作。首先，什么是循环引用？最简单来讲，就是你引用了我，我又引用了你。结合书中的代码进行解释: 123456789101112131415161718192021class A: NSObject &amp;#123;    let b:">
+<meta name="twitter:image" content="http://7vzn6p.com1.z0.glb.clouddn.com/15030404650556.jpg">
+  
+  
+    <link rel="icon" href="http://bloodshed.qiniudn.com/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+<body>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
+</div>
+<header id="header">
+    <div class = "blog-info">
+	<h1 class="blog-title">
+		<a href="/">BBBBB&#39;s Land</a>
+	</h1></br>
+	Lord don&#39;t move that mountain.
+	</div>
+
+
+	
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/about/index.html">About</a></li>
+			<!-- <li><a id="nav-search-btn" class="nav-icon" title="Search"></a></li> -->
+			
+			
+		</ul>
+		
+		
+		
+		
+	
+	</nav>
+	
+	<!-- <div id="search-form-wrap">
+		<form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+	</div> -->
+	
+	
+</header>
+
+
+    <div id="main">
+      <article id="post-SwiftTipsNote4" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/08/18/SwiftTipsNote4/" class="article-date">
+  <time datetime="2017-08-18T02:33:23.000Z" itemprop="datePublished">2017-08-18</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/08/18/SwiftTipsNote4/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 class="article-title entry-title" itemprop="name">
+      《Swifter - Swift 开发者必备 Tips》读书笔记 4
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+    	<h3 id="内存管理，weak-和-unowned"><a href="#内存管理，weak-和-unowned" class="headerlink" title="内存管理，weak 和 unowned"></a>内存管理，weak 和 unowned</h3><p>唔，内存管理是一块很硬很硬很硬很硬的骨头（虽然在<code>ARC</code>时代已经没有以前那么硬了），在这一节中只介绍了简单的<code>Swift</code>中避免循环引用的操作。<br><br>首先，什么是循环引用？最简单来讲，就是你引用了我，我又引用了你。结合书中的代码进行解释:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> b: <span class="type">B</span></div><div class="line">    <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</div><div class="line">        b = <span class="type">B</span>()</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</div><div class="line">        b.a = <span class="keyword">self</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">deinit</span> &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"A deinit"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> a: <span class="type">A</span>? = <span class="literal">nil</span></div><div class="line">    <span class="keyword">deinit</span> &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"B deinit"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p><code>A</code>的实例中会持有一个<code>B</code>的实例，而在<code>A</code>的初始化中，又会让自己持有的<code>B</code>的实例继续持有自己(靠，我自己说着都拗口)。<br><br>我们都知道，<code>iOS</code>中的内存管理，是基于<code>Reference Count(引用计数)</code>的，最基本的规则就是：持有一个对象，该对象引用计数+1；不再持有一个对象，该对象引用计数-1；当一个对象的引用计数变为0，那么他会被释放，他所占用的内存被回收。结合以下代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj: <span class="type">A</span>? = <span class="type">A</span>()</div><div class="line">obj = <span class="literal">nil</span></div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>控制台没有任何输出，即使给<code>obj</code>赋值<code>nil</code>之后，<code>A</code>和<code>B</code>的<code>deinit</code>函数也没有执行。我们来分析一下引用计数变化情况：</p>
+<ol>
+<li><code>A</code>的实例初始化，被<code>obj</code>持有，<code>A</code>的实例引用计数 = 1</li>
+<li><code>B</code>的实例初始化，被<code>A</code>的实例持有，<code>B</code>的实例引用计数 = 1</li>
+<li>将<code>A</code>的实例赋值给<code>B</code>的属性<code>a</code>，<code>a</code>持有<code>A</code>的实例，<code>A</code>的实例引用计数 = 2</li>
+<li>给<code>obj</code>赋值<code>nil</code>，<code>obj</code>不再持有<code>A</code>的实例，<code>A</code>的实例引用计数 = 1</li>
+<li>最后的结果：由于<code>B</code>的实例<code>b</code>还持有<code>A</code>的实例，<code>A</code>的实例永远无法被释放；<code>A</code>的实例永远无法被释放，导致它体内持有的<code>B</code>的实例<code>b</code>永远无法被释放。如此往复循环，谓之循环引用也。</li>
+</ol>
+<p>要想正确释放，则必须先将<code>A</code>的属性<code>b</code>对<code>A</code>的实例的持有打破，再将<code>obj</code>赋值<code>nil</code>：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj: <span class="type">A</span>? = <span class="type">A</span>()</div><div class="line">obj?.b.a = <span class="literal">nil</span></div><div class="line">obj = <span class="literal">nil</span></div><div class="line"></div><div class="line"><span class="comment">//打印结果：</span></div><div class="line"><span class="comment">//A deinit</span></div><div class="line"><span class="comment">//B deinit</span></div></pre></td></tr></table></figure>
+<p>当然你大可以像以上代码一样，对于存在循环引用的地方，手动打破循环引用，但是<code>Swift</code>已经给出了更为优雅的做法，那就是熟悉的<code>weak</code>关键字，将<code>B</code>声明作出如下修改即可：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> a: <span class="type">A</span>? = <span class="literal">nil</span></div><div class="line">    <span class="keyword">deinit</span> &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"B deinit"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//打印结果：</span></div><div class="line"><span class="comment">//A deinit</span></div><div class="line"><span class="comment">//B deinit</span></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p><code>weak</code>表示这个指针是弱引用，指向的对象引用计数不+1。<br><br>除了<code>weak</code>,<code>Swift</code>还引入了一个新的<code>unowned</code>关键字，喵神指出：</p>
+<blockquote>
+<p>它们的区别在哪里呢？如果您是一直写 Objective-C 过来的，那么从表面的行为上来说 unowned 更像以前的 unsafe_unretained，而 weak 就是以前的 weak。</p>
+</blockquote>
+<p>对于两者的选择，遵循以下原则：</p>
+<ul>
+<li>若确定对象在访问时不会被释放，则使用<code>unowned</code></li>
+<li>若不能确定对象在访问时不会被释放，则使用<code>weak</code></li>
+</ul>
+<p>同样，结合书中的代码进行说明：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">    <span class="built_in">lazy</span> <span class="keyword">var</span> printName: ()-&gt;() = &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"The name is <span class="subst">\(<span class="keyword">self</span>.name)</span>"</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">init</span>(personName: <span class="type">String</span>) &#123;</div><div class="line">        name = personName</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">deinit</span> &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"Person deinit <span class="subst">\(<span class="keyword">self</span>.name)</span>"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> xiaoMing: <span class="type">Person</span>? = <span class="type">Person</span>(personName: <span class="string">"XiaoMing"</span>)</div><div class="line">xiaoMing!.printName()</div><div class="line">xiaoMing = <span class="literal">nil</span></div><div class="line"><span class="comment">// 输出:</span></div><div class="line"><span class="comment">// The name is XiaoMing，没有被释放</span></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p><code>Person</code>的实例持有一个<code>printName</code>闭包，而<code>printName</code>闭包内部又通过<code>self</code>持有了持有它的<code>Person</code>实例，这里就会出现循环引用。<br><br>将<code>printName</code>修改，可以得到预期的打印结果:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">lazy</span> <span class="keyword">var</span> printName: ()-&gt;() = &#123; [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="keyword">in</span></div><div class="line">        <span class="built_in">print</span>(<span class="string">"The name is <span class="subst">\(<span class="keyword">self</span>.name)</span>"</span>)</div><div class="line">    &#125;</div><div class="line"><span class="comment">//or</span></div><div class="line"><span class="built_in">lazy</span> <span class="keyword">var</span> printName: (()-&gt;()) = &#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] <span class="keyword">in</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> strongSelf = <span class="keyword">self</span> &#123;</div><div class="line">            <span class="built_in">print</span>(<span class="string">"The name is <span class="subst">\(strongSelf.name)</span>"</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line"><span class="comment">//打印结果：</span></div><div class="line"><span class="comment">//The name is XiaoMing</span></div><div class="line"><span class="comment">//Person deinit XiaoMing</span></div></pre></td></tr></table></figure>
+<p>不过这是针对“确定对象在调用时不会被释放”的情况，那么把调用代码改为:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xiaoMing: <span class="type">Person</span>? = <span class="type">Person</span>(personName: <span class="string">"XiaoMing"</span>)</div><div class="line">xiaoMing!.printName()</div><div class="line"><span class="keyword">let</span> closure = xiaoMing!.printName</div><div class="line">xiaoMing = <span class="literal">nil</span></div><div class="line">closure()</div><div class="line"></div><div class="line"><span class="comment">//打印结果</span></div><div class="line"><span class="comment">//The name is XiaoMing</span></div><div class="line"><span class="comment">//Person deinit XiaoMing</span></div></pre></td></tr></table></figure>
+<p>即让一个外部常量（当然也可以是变量）持有<code>printName</code>，然后再释放<code>Person</code>实例。通过打印结果可以知道<code>Person</code>被正确释放，并没有产生循环引用。但是由于<code>printName</code>闭包随着<code>Person</code>实例的释放一并被释放了，所以最后再次调用<code>closure()</code>的时候，会报错：<br><img src="http://7vzn6p.com1.z0.glb.clouddn.com/15030404650556.jpg" alt=""></p>
+<p>按照之前提到的规则，改为<code>weak</code>之后，一切正常~<br><br>不过内存管理这一块，博大精深，我还在啃另外一本经典《Objective-C高级编程 iOS与OS X多线程和内存管理》，不过实在是，太博大精深了，估计得读个三五遍才能吃透，要死要死要死。</p>
+<hr>
+
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Reading/">Reading</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ARC/">ARC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存管理/">内存管理</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+    
+<nav id="article-nav">
+  
+    <a href="/2017/08/23/popmvvm/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Protocol-Oriented Programming 与 MVVM 实践
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/08/16/SwiftTipsNote3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">
+        
+          《Swifter - Swift 开发者必备 Tips》读书笔记 3
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section> 
+
+
+    </div>
+    <!-- <div class="mb-search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+-->
+<footer id="footer">
+	<!-- <h1 class="footer-blog-title">
+			<a href="/">BBBBB&#39;s Land</a>
+		</h1> 
+	-->
+	<span class="copyright">
+		&copy; 2017 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
+		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
+	</span>
+</footer>
+    
+<script>
+  var disqus_shortname = 'hahnchan';
+  
+  var disqus_url = 'http://yoursite.com/2017/08/18/SwiftTipsNote4/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
