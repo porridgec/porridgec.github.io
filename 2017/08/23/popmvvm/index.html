@@ -5,17 +5,17 @@
   
   <title>Protocol-Oriented Programming 与 MVVM 实践 | BBBBB&#39;s Land</title>
   <meta name="viewport" content="width=device-width">
-  <meta name="description" content="[TOC] 引子protocol在Objective-C中已经存在，但是在Swift中，它的地位上升到了一个前所未有的新高度。在@Cwift的《Swift：面向协议编程》一书中，作者把protocol,struct以及enum称为Swift三杰。同时，通过查看Swift的源码我们可以发现，诸如Array,Dictionary等类型，全是通过使用struct配合protocol重新实现的，足见在Sw">
+  <meta name="description" content="引子protocol在Objective-C中已经存在，但是在Swift中，它的地位上升到了一个前所未有的新高度。在@Cwift的《Swift：面向协议编程》一书中，作者把protocol,struct以及enum称为Swift三杰。同时，通过查看Swift的源码我们可以发现，诸如Array,Dictionary等类型，全是通过使用struct配合protocol重新实现的，足见在Swift中他们">
 <meta name="keywords" content="MVVM,Protocol-Oriented Programming,ReactiveSwift,ReactiveCocoa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Protocol-Oriented Programming 与 MVVM 实践">
 <meta property="og:url" content="http://yoursite.com/2017/08/23/popmvvm/index.html">
 <meta property="og:site_name" content="BBBBB&#39;s Land">
-<meta property="og:description" content="[TOC] 引子protocol在Objective-C中已经存在，但是在Swift中，它的地位上升到了一个前所未有的新高度。在@Cwift的《Swift：面向协议编程》一书中，作者把protocol,struct以及enum称为Swift三杰。同时，通过查看Swift的源码我们可以发现，诸如Array,Dictionary等类型，全是通过使用struct配合protocol重新实现的，足见在Sw">
-<meta property="og:updated_time" content="2017-08-23T11:06:18.000Z">
+<meta property="og:description" content="引子protocol在Objective-C中已经存在，但是在Swift中，它的地位上升到了一个前所未有的新高度。在@Cwift的《Swift：面向协议编程》一书中，作者把protocol,struct以及enum称为Swift三杰。同时，通过查看Swift的源码我们可以发现，诸如Array,Dictionary等类型，全是通过使用struct配合protocol重新实现的，足见在Swift中他们">
+<meta property="og:updated_time" content="2017-08-29T10:52:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Protocol-Oriented Programming 与 MVVM 实践">
-<meta name="twitter:description" content="[TOC] 引子protocol在Objective-C中已经存在，但是在Swift中，它的地位上升到了一个前所未有的新高度。在@Cwift的《Swift：面向协议编程》一书中，作者把protocol,struct以及enum称为Swift三杰。同时，通过查看Swift的源码我们可以发现，诸如Array,Dictionary等类型，全是通过使用struct配合protocol重新实现的，足见在Sw">
+<meta name="twitter:description" content="引子protocol在Objective-C中已经存在，但是在Swift中，它的地位上升到了一个前所未有的新高度。在@Cwift的《Swift：面向协议编程》一书中，作者把protocol,struct以及enum称为Swift三杰。同时，通过查看Swift的源码我们可以发现，诸如Array,Dictionary等类型，全是通过使用struct配合protocol重新实现的，足见在Swift中他们">
   
   
     <link rel="icon" href="http://bloodshed.qiniudn.com/favicon.png">
@@ -88,8 +88,7 @@
 	</header>
 	<div class="entry-content">
 		
-    	<p>[TOC]</p>
-<h3 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h3><p><code>protocol</code>在<code>Objective-C</code>中已经存在，但是在<code>Swift</code>中，它的地位上升到了一个前所未有的新高度。在<a href="http://weibo.com/277195544" target="_blank" rel="external">@Cwift</a>的《Swift：面向协议编程》一书中，作者把<code>protocol</code>,<code>struct</code>以及<code>enum</code>称为<code>Swift三杰</code>。同时，通过查看<code>Swift</code>的源码我们可以发现，诸如<code>Array</code>,<code>Dictionary</code>等类型，全是通过使用<code>struct</code>配合<code>protocol</code>重新实现的，足见在<code>Swift</code>中他们的强大。<br><br><code>Object-Oriented Programming</code>我们已经非常熟悉了，其三大特征：<em>继承</em>、<em>多态</em>、<em>封装</em>我们也耳熟能详。但过于依赖继承，极大可能会面临<code>菱形问题</code>的困扰。<code>protocol</code>的出现，解决了这一问题。<br><br>而<code>MVVM</code>,事实上它和<code>Protocol-Oriented Programming</code>并没有任何直接的联系。只不过是从去年开始，我所有的项目都是使用的<code>MVVM</code>架构。我之前的<code>MVVM</code>写法，是学习<a href="http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/" target="_blank" rel="external">MVVM With ReactiveCocoa - 雷纯锋的技术博客</a>这一篇文章，也写了一个<code>Swift</code>的demo<a href="https://github.com/porridgec/BBMVVMProject" target="_blank" rel="external">porridgec/BBMVVMProject: an MVVM demo with RAC 5</a>。<br></p>
+    	<h3 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h3><p><code>protocol</code>在<code>Objective-C</code>中已经存在，但是在<code>Swift</code>中，它的地位上升到了一个前所未有的新高度。在<a href="http://weibo.com/277195544" target="_blank" rel="external">@Cwift</a>的《Swift：面向协议编程》一书中，作者把<code>protocol</code>,<code>struct</code>以及<code>enum</code>称为<code>Swift三杰</code>。同时，通过查看<code>Swift</code>的源码我们可以发现，诸如<code>Array</code>,<code>Dictionary</code>等类型，全是通过使用<code>struct</code>配合<code>protocol</code>重新实现的，足见在<code>Swift</code>中他们的强大。<br><br><code>Object-Oriented Programming</code>我们已经非常熟悉了，其三大特征：<em>继承</em>、<em>多态</em>、<em>封装</em>我们也耳熟能详。但过于依赖继承，极大可能会面临<code>菱形问题</code>的困扰。<code>protocol</code>的出现，解决了这一问题。<br><br>而<code>MVVM</code>,事实上它和<code>Protocol-Oriented Programming</code>并没有任何直接的联系。只不过是从去年开始，我所有的项目都是使用的<code>MVVM</code>架构。我之前的<code>MVVM</code>写法，是学习<a href="http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/" target="_blank" rel="external">MVVM With ReactiveCocoa - 雷纯锋的技术博客</a>这一篇文章，也写了一个<code>Swift</code>的demo<a href="https://github.com/porridgec/BBMVVMProject" target="_blank" rel="external">porridgec/BBMVVMProject: an MVVM demo with RAC 5</a>。<br></p>
 <a id="more"></a>
 <h3 id="Model-View-ViewModel"><a href="#Model-View-ViewModel" class="headerlink" title="Model-View-ViewModel"></a>Model-View-ViewModel</h3><p>在这个架构中，核心在于<code>viewModel</code>。所有业务逻辑都放到<code>viewModel</code>中，同时不直接对<code>viewController</code>进行导航相关的操作，而是借助一个<code>navigationEventBus</code>直接对<code>viewModel</code>进行<code>push</code>,<code>pop</code>等操作，具体实现可以参照我的demo，这里只给出核心代码以供说明:</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//  NavigationEventBus.swift</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">NavigationEventBus</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line">    </div><div class="line">    <span class="keyword">static</span> <span class="keyword">let</span> shared: <span class="type">NavigationEventBus</span> = <span class="type">NavigationEventBus</span>()</div><div class="line">    </div><div class="line">    <span class="keyword">private</span> <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">push</span><span class="params">(viewModel: BaseViewModel, animated: Bool)</span></span> &#123;&#125;</div><div class="line">    </div><div class="line">    <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">popViewModel</span><span class="params">(animated: Bool)</span></span> &#123;&#125;</div><div class="line">    </div><div class="line">    <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">popToRootViewModel</span><span class="params">(animated: Bool)</span></span> &#123;&#125;</div><div class="line">    </div><div class="line">    <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">present</span><span class="params">(viewModel: BaseViewModel, animated: Bool, completion: <span class="params">(<span class="params">()</span></span></span></span> -&gt; <span class="type">Void</span>)?) &#123;&#125;</div><div class="line">    </div><div class="line">    <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">dismissViewModel</span><span class="params">(aniamted: Bool, completion: <span class="params">(<span class="params">()</span></span></span></span> -&gt; <span class="type">Void</span>)?) &#123;&#125;</div><div class="line">    </div><div class="line">    <span class="keyword">dynamic</span> <span class="function"><span class="keyword">func</span> <span class="title">reset</span><span class="params">(rootViewModel: BaseViewModel)</span></span> &#123;&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -141,6 +140,15 @@
 	
     
 <nav id="article-nav">
+  
+    <a href="/2017/08/31/pop-mvvm-tableview/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Protocol-Oriented Programming 与 MVVM 实践中的TableView
+        
+      </div>
+    </a>
   
   
     <a href="/2017/08/18/SwiftTipsNote4/" id="article-nav-older" class="article-nav-link-wrap">

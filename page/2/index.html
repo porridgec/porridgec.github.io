@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>BBBBB&#39;s Land</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="Lord don&apos;t move that mountain.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BBBBB&#39;s Land">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="BBBBB&#39;s Land">
+<meta property="og:description" content="Lord don&apos;t move that mountain.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BBBBB&#39;s Land">
+<meta name="twitter:description" content="Lord don&apos;t move that mountain.">
+  
+  
+    <link rel="icon" href="http://bloodshed.qiniudn.com/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+<body>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
+</div>
+<header id="header">
+    <div class = "blog-info">
+	<h1 class="blog-title">
+		<a href="/">BBBBB&#39;s Land</a>
+	</h1></br>
+	Lord don&#39;t move that mountain.
+	</div>
+
+
+	
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/about/index.html">About</a></li>
+			<!-- <li><a id="nav-search-btn" class="nav-icon" title="Search"></a></li> -->
+			
+			
+		</ul>
+		
+		
+		
+		
+	
+	</nav>
+	
+	<!-- <div id="search-form-wrap">
+		<form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+	</div> -->
+	
+	
+</header>
+
+
+    <div id="main">
+      
+  
+    <article id="post-SwiftTipsNote1" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/08/03/SwiftTipsNote1/" class="article-date">
+  <time datetime="2017-08-03T02:41:02.000Z" itemprop="datePublished">2017-08-03</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/08/03/SwiftTipsNote1/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 itemprop="name" class="entry-title">
+      <a class="article-title" href="/2017/08/03/SwiftTipsNote1/">《Swifter - Swift 开发者必备 Tips》读书笔记 1</a>
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+			<h3 id="default-参数"><a href="#default-参数" class="headerlink" title="default 参数"></a>default 参数</h3><p><code>Swift</code>的函数支持默认参数，即在声明函数的时候指定一个默认的参数值，当调用函数没有传入参数时，使用这个默认参数。以<code>ReactiveSwift</code>中的常用的<code>Observer</code>初始化函数为例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">convenience</span> <span class="keyword">init</span>(</div><div class="line">		value: ((<span class="type">Value</span>) -&gt; <span class="type">Void</span>)? = <span class="literal">nil</span>,</div><div class="line">		failed: ((<span class="type">Error</span>) -&gt; <span class="type">Void</span>)? = <span class="literal">nil</span>,</div><div class="line">		completed: (() -&gt; <span class="type">Void</span>)? = <span class="literal">nil</span>,</div><div class="line">		interrupted: (() -&gt; <span class="type">Void</span>)? = <span class="literal">nil</span></div><div class="line">	) &#123;</div><div class="line">		<span class="keyword">self</span>.<span class="keyword">init</span> &#123; event <span class="keyword">in</span></div><div class="line">			<span class="keyword">switch</span> event &#123;</div><div class="line">			<span class="keyword">case</span> <span class="keyword">let</span> .value(v):</div><div class="line">				value?(v)</div><div class="line"></div><div class="line">			<span class="keyword">case</span> <span class="keyword">let</span> .failed(error):</div><div class="line">				failed?(error)</div><div class="line"></div><div class="line">			<span class="keyword">case</span> .completed:</div><div class="line">				completed?()</div><div class="line"></div><div class="line">			<span class="keyword">case</span> .interrupted:</div><div class="line">				interrupted?()</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>可以看到四个参数都指定了默认值<code>nil</code>,这就可以在调用函数时给我们带来极大地遍历，我们不需要传入所有的参数，省下了不少的工作量。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="type">Network</span>.getUser(uid: <span class="literal">nil</span>).start(<span class="type">Observer</span>&lt;<span class="type">UserModel</span>, <span class="type">MoyaError</span>&gt;.<span class="keyword">init</span>(value: &#123; (userModel) <span class="keyword">in</span></div><div class="line">                <span class="type">AccountManager</span>.shared.accountAction.apply((.loginedUser(userModel: userModel), <span class="literal">false</span>)).start()</div><div class="line">                observer.send(value: (action, <span class="literal">true</span>))</div><div class="line">                observer.sendCompleted()</div><div class="line">            &#125;, failed: &#123; (<span class="number">_</span>) <span class="keyword">in</span></div><div class="line">                observer.send(value: (action, <span class="literal">false</span>))</div><div class="line">                observer.sendCompleted()</div><div class="line">            &#125;))</div></pre></td></tr></table></figure>
+<p>如以上代码，可以看到我只传入了<code>value</code>和<code>failed</code>两个closure，因为我的业务只需要对于这两个<code>event</code>进行处理。</p>
+<hr>
+			
+				<p class="article-more-link">
+					<a href="/2017/08/03/SwiftTipsNote1/#more">Read More</a>
+				</p>
+      
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Reading/">Reading</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+</article>
+
+
+	<hr class="article-devider">
+
+
+
+
+
+  
+    <article id="post-SwiftTipsNote0" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/08/01/SwiftTipsNote0/" class="article-date">
+  <time datetime="2017-08-01T08:10:44.000Z" itemprop="datePublished">2017-08-01</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/08/01/SwiftTipsNote0/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 itemprop="name" class="entry-title">
+      <a class="article-title" href="/2017/08/01/SwiftTipsNote0/">《Swifter - Swift 开发者必备 Tips》读书笔记 0</a>
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+			<h3 id="柯里化-Currying"><a href="#柯里化-Currying" class="headerlink" title="柯里化(Currying)"></a>柯里化(Currying)</h3><p>喵神在书中给出的例子：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">addOne</span><span class="params">(num: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">    <span class="keyword">return</span> num + <span class="number">1</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>这只是一个简单的+1的函数，那么要+2，+3呢？</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">addTo</span><span class="params">(<span class="number">_</span> adder: Int)</span></span> -&gt; (<span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        num <span class="keyword">in</span></div><div class="line">        <span class="keyword">return</span> num + adder</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>那么可以方便地得到</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> addTwo = addTo(<span class="number">2</span>)    <span class="comment">// addTwo: Int -&gt; Int</span></div><div class="line"><span class="keyword">let</span> result = addTwo(<span class="number">6</span>)   <span class="comment">// result = 8</span></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p><code>addTo(_ adder: Int)</code>这个函数的返回值就是一个closure，这就体现了柯里化的核心就是函数式编程<code>Functional Programming</code>。</p>
+<hr>
+			
+				<p class="article-more-link">
+					<a href="/2017/08/01/SwiftTipsNote0/#more">Read More</a>
+				</p>
+      
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Reading/">Reading</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Protocol-Oriented-Programming/">Protocol-Oriented Programming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactiveSwift/">ReactiveSwift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+</article>
+
+
+	<hr class="article-devider">
+
+
+
+
+
+  
+    <article id="post-escapingInSwift" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/07/31/escapingInSwift/" class="article-date">
+  <time datetime="2017-07-31T09:25:41.000Z" itemprop="datePublished">2017-07-31</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/07/31/escapingInSwift/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 itemprop="name" class="entry-title">
+      <a class="article-title" href="/2017/07/31/escapingInSwift/">@escaping In Swift</a>
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+			<p><code>@escaping</code>在Swift中是一个常见的关键字。它的使用场景是声明当一个closure作为参数传入函数时，该closure是“可逃逸”的。即，closure的内容在函数执行完毕之后才会执行（最常见的就是网络请求等异步执行的场景）<br>。在Swift 3中，所有作为参数传入的closure默认是非逃逸的（相当于Swift 2中的<code>@noescape</code>关键字），所以对于异步执行的closure，需要显式地声明<code>@escaping</code>。以下是一个小demo:<br></p>
+			
+				<p class="article-more-link">
+					<a href="/2017/07/31/escapingInSwift/#more">Read More</a>
+				</p>
+      
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+</article>
+
+
+	<hr class="article-devider">
+
+
+
+
+
+  
+    <article id="post-ReusableCellInMVVM" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/07/12/ReusableCellInMVVM/" class="article-date">
+  <time datetime="2017-07-12T09:32:56.000Z" itemprop="datePublished">2017-07-12</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/07/12/ReusableCellInMVVM/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 itemprop="name" class="entry-title">
+      <a class="article-title" href="/2017/07/12/ReusableCellInMVVM/">在MVVM中使用ReusableCell的正确姿势</a>
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+			<p>在iOS开发中，不可避免要使用<code>UITableView</code>和<code>UICollectionView</code>，那么就一定会使用<code>UITableViewCell</code>和<code>UICollectionViewCell</code>。最为普遍的使用方法无外乎如下（以<code>UITableView</code>为例）:<br></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//先注册Cell</span></div><div class="line">tableView.register(<span class="type">SomeCell</span>.classForCoder(), forCellReuseIdentifier: <span class="string">"SomeCell"</span>)</div></pre></td></tr></table></figure>
+<p><br></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//再根据注册的CellReuseIdentifier获取Cell</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">tableView</span><span class="params">(<span class="number">_</span> tableView: UITableView, cellForRowAt indexPath: IndexPath)</span></span> -&gt; <span class="type">UITableViewCell</span> &#123;</div><div class="line">    <span class="keyword">let</span> cell = tableView.dequeueReusableCell(withIdentifier: <span class="string">"SomeCell"</span>, <span class="keyword">for</span>: indexPath)</div><div class="line">    <span class="comment">//some code</span></div><div class="line">    <span class="keyword">return</span> cell</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从上上上个项目开始，我开始使用<code>MVVM</code>架构，其中核心角色是各种<code>ViewModel</code>、<code>CellViewModel</code>。在使用<code>UITableView</code>的地方，我的datasource存储的都是一系列的<code>CellViewModel</code>,然后通过<code>CellViewModel</code>获取对应的<code>UITableViewCell</code>。其核心就是直接通过<code>CellViewModel</code>管理对应的<code>CellReuseIdentifier</code></p>
+			
+				<p class="article-more-link">
+					<a href="/2017/07/12/ReusableCellInMVVM/#more">Read More</a>
+				</p>
+      
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Working/">Working</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVVM/">MVVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Protocol-Oriented-Programming/">Protocol-Oriented Programming</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+</article>
+
+
+	<hr class="article-devider">
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    </nav>
+  
+
+    </div>
+    <!-- <div class="mb-search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+-->
+<footer id="footer">
+	<!-- <h1 class="footer-blog-title">
+			<a href="/">BBBBB&#39;s Land</a>
+		</h1> 
+	-->
+	<span class="copyright">
+		&copy; 2017 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
+		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
+	</span>
+</footer>
+    
+<script>
+  var disqus_shortname = 'hahnchan';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
