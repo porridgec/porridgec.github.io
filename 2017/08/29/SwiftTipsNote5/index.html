@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Swifter - Swift 开发者必备 Tips》读书笔记 5 | BBBBB&#39;s Land</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="值类型和引用类型Swift 中有值类型( struct 和 enum )和引用类型( class )，并且 Swift 所有内建的类型全部是引用类型，包括 Array 和 Dictionary 等容器类型。在内存分配上来看，值类型是在栈上，而引用类型是在堆上，所以值类型相较于引用类型减少了在堆上对于内存的操作，这是最为明显的优势。">
+<meta name="keywords" content="Swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 5">
+<meta property="og:url" content="http://yoursite.com/2017/08/29/SwiftTipsNote5/index.html">
+<meta property="og:site_name" content="BBBBB&#39;s Land">
+<meta property="og:description" content="值类型和引用类型Swift 中有值类型( struct 和 enum )和引用类型( class )，并且 Swift 所有内建的类型全部是引用类型，包括 Array 和 Dictionary 等容器类型。在内存分配上来看，值类型是在栈上，而引用类型是在堆上，所以值类型相较于引用类型减少了在堆上对于内存的操作，这是最为明显的优势。">
+<meta property="og:updated_time" content="2017-09-08T03:34:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 5">
+<meta name="twitter:description" content="值类型和引用类型Swift 中有值类型( struct 和 enum )和引用类型( class )，并且 Swift 所有内建的类型全部是引用类型，包括 Array 和 Dictionary 等容器类型。在内存分配上来看，值类型是在栈上，而引用类型是在堆上，所以值类型相较于引用类型减少了在堆上对于内存的操作，这是最为明显的优势。">
+  
+  
+    <link rel="icon" href="http://bloodshed.qiniudn.com/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+<body>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
+</div>
+<header id="header">
+    <div class = "blog-info">
+	<h1 class="blog-title">
+		<a href="/">BBBBB&#39;s Land</a>
+	</h1></br>
+	Waiting for a light that never comes.
+	</div>
+
+
+	
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/about/index.html">About</a></li>
+			<!-- <li><a id="nav-search-btn" class="nav-icon" title="Search"></a></li> -->
+			
+			
+		</ul>
+		
+		
+		
+		
+	
+	</nav>
+	
+	<!-- <div id="search-form-wrap">
+		<form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+	</div> -->
+	
+	
+</header>
+
+
+    <div id="main">
+      <article id="post-SwiftTipsNote5" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/08/29/SwiftTipsNote5/" class="article-date">
+  <time datetime="2017-08-29T10:51:36.000Z" itemprop="datePublished">2017-08-29</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/08/29/SwiftTipsNote5/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 class="article-title entry-title" itemprop="name">
+      《Swifter - Swift 开发者必备 Tips》读书笔记 5
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+    	<h3 id="值类型和引用类型"><a href="#值类型和引用类型" class="headerlink" title="值类型和引用类型"></a>值类型和引用类型</h3><p><code>Swift</code> 中有值类型( <code>struct</code> 和 <code>enum</code> )和引用类型( <code>class</code> )，并且 <code>Swift</code> 所有内建的类型全部是引用类型，包括 <code>Array</code> 和 <code>Dictionary</code> 等容器类型。<br><br>在内存分配上来看，值类型是在栈上，而引用类型是在堆上，所以值类型相较于引用类型减少了在堆上对于内存的操作，这是最为明显的优势。<br></p>
+<a id="more"></a>
+<p>同时， <code>Swift</code> 中的值类型，有一个特性叫做 <code>写时复制</code> ,即一个值类型在简单的赋值等操作时，内容并不立即复制，而是使用同一块内存空间，如：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</div><div class="line"><span class="keyword">var</span> b = a</div><div class="line"></div><div class="line">a.withUnsafeBufferPointer &#123; (ptr) -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(ptr)</div><div class="line">&#125;</div><div class="line">b.withUnsafeBufferPointer &#123; (ptr) -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(ptr)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//打印结果：</span></div><div class="line"><span class="comment">//UnsafeBufferPointer(start: 0x00006080000748a0, count: 3)</span></div><div class="line"><span class="comment">//UnsafeBufferPointer(start: 0x00006080000748a0, count: 3)</span></div></pre></td></tr></table></figure>
+<p>当它的内容发生改变时才会开辟一块新的内存，并复制以前的值：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">b.append(<span class="number">1</span>)</div><div class="line">a.withUnsafeBufferPointer &#123; (ptr) -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(ptr)</div><div class="line">&#125;</div><div class="line">b.withUnsafeBufferPointer &#123; (ptr) -&gt; <span class="type">Void</span> <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(ptr)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//打印结果：</span></div><div class="line"><span class="comment">//UnsafeBufferPointer(start: 0x00006080000748a0, count: 3)</span></div><div class="line"><span class="comment">//UnsafeBufferPointer(start: 0x00006000000887c0, count: 4)</span></div></pre></td></tr></table></figure>
+<hr>
+<h3 id="UnsafePointer"><a href="#UnsafePointer" class="headerlink" title="UnsafePointer"></a>UnsafePointer</h3><p>这一节主要讲在 <code>Swift</code> 中可能出现的访问 <code>C</code> 中内存地址（作为参数、作为返回值）的情况。<br><br>例如，如果在 <code>C</code> 中有一个 <code>Type</code> 类型，那么在 <code>Swift</code> 中访问就应变成 <code>UnsafePointer&lt;Type&gt;</code> 或 <code>UnsafeMutablePointer&lt;Type&gt;</code> ，具体规则如下表：</p>
+<table>
+<thead>
+<tr>
+<th>C API</th>
+<th>Swift API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const Type *</td>
+<td>UnsafePointer</td>
+</tr>
+<tr>
+<td>Type *</td>
+<td>UnsafeMutablePointer </td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="C-指针内存管理"><a href="#C-指针内存管理" class="headerlink" title="C 指针内存管理"></a>C 指针内存管理</h3><p>这一节紧接着上节的内容，核心内容就是在 <code>Swift</code> 中的 <code>C</code> 指针需要手动释放内存。<br><br>简单地赋值 <code>nil</code> 并不能使内存释放，必须手动调用 <code>deinitialize</code> 和 <code>deallocate</code> 。<br><br>当然了，以上两节提到的内容，实在是很少遇到。。。</p>
+<hr>
+<h3 id="判等"><a href="#判等" class="headerlink" title="判等"></a>判等</h3><p>在 <code>Objective-C</code> 中判等我们使用的是 <code>==</code> ，但实际上判断的是两个对象指向的内存地址是否相同，所以很多情况下我们需要对 <code>-isEqual:</code> 进行重写。但在 <code>Swift</code> 中，我们可以直接简单地使用 <code>==</code> 来判断两个对象的内容是否相同。 <br><br>但是对于 <code>Swift</code> 中的自定义类型，是无法直接使用 <code>==</code> 的，因为事实上这是一个 <code>Equatable</code> 协议中定义的操作符， <code>Swift</code> 自建的类型都遵循了这个协议，故而可以直接使用。自定义类型则必须实现 <code>==</code> ，当然，这也给了我们对于对象相等性判断更大的自由，比如：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> uid = <span class="number">0</span></div><div class="line">    <span class="keyword">var</span> alias = <span class="number">0</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="type">A</span>()</div><div class="line"><span class="keyword">var</span> b = a</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">A</span>: <span class="title">Equatable</span> </span>&#123;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> ==<span class="params">(lhs: A, rhs: A)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">    <span class="keyword">return</span> lhs.uid == rhs.uid</div><div class="line">&#125;</div><div class="line"></div><div class="line">b.alias = <span class="number">1</span></div><div class="line"><span class="built_in">print</span>(a == b)</div><div class="line">b.uid = <span class="number">1</span></div><div class="line"><span class="built_in">print</span>(a == b)</div><div class="line"></div><div class="line"><span class="comment">//打印结果：</span></div><div class="line"><span class="comment">//true</span></div><div class="line"><span class="comment">//false</span></div></pre></td></tr></table></figure>
+
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Reading/">Reading</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+    
+<nav id="article-nav">
+  
+    <a href="/2017/08/31/pop-mvvm-tableview/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Protocol-Oriented Programming 与 MVVM 实践中的TableView
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/08/23/popmvvm/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">
+        
+          Protocol-Oriented Programming 与 MVVM 实践
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section> 
+
+
+    </div>
+    <!-- <div class="mb-search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+-->
+<footer id="footer">
+	<!-- <h1 class="footer-blog-title">
+			<a href="/">BBBBB&#39;s Land</a>
+		</h1> 
+	-->
+	<span class="copyright">
+		&copy; 2017 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
+		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
+	</span>
+</footer>
+    
+<script>
+  var disqus_shortname = 'hahnchan';
+  
+  var disqus_url = 'http://yoursite.com/2017/08/29/SwiftTipsNote5/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
