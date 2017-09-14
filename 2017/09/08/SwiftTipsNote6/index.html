@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《Swifter - Swift 开发者必备 Tips》读书笔记 6 | BBBBB&#39;s Land</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="输出格式化在 Swift 中，打印函数 print 非常简单暴力，支持遵循 Streamable ， Printable ， DebugPrintable 协议的类型直接进行字符串插值： 12345678let a = 3;let b = 1.234567  // 我们在这里不去区分 float 和 Double 了let c = &quot;Hello&quot;print(&quot;int:\(a) double:\(b">
+<meta name="keywords" content="Swift,Objective-C Runtime">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 6">
+<meta property="og:url" content="http://yoursite.com/2017/09/08/SwiftTipsNote6/index.html">
+<meta property="og:site_name" content="BBBBB&#39;s Land">
+<meta property="og:description" content="输出格式化在 Swift 中，打印函数 print 非常简单暴力，支持遵循 Streamable ， Printable ， DebugPrintable 协议的类型直接进行字符串插值： 12345678let a = 3;let b = 1.234567  // 我们在这里不去区分 float 和 Double 了let c = &quot;Hello&quot;print(&quot;int:\(a) double:\(b">
+<meta property="og:updated_time" content="2017-09-14T10:45:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 6">
+<meta name="twitter:description" content="输出格式化在 Swift 中，打印函数 print 非常简单暴力，支持遵循 Streamable ， Printable ， DebugPrintable 协议的类型直接进行字符串插值： 12345678let a = 3;let b = 1.234567  // 我们在这里不去区分 float 和 Double 了let c = &quot;Hello&quot;print(&quot;int:\(a) double:\(b">
+  
+  
+    <link rel="icon" href="http://bloodshed.qiniudn.com/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+<body>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
+</div>
+<header id="header">
+    <div class = "blog-info">
+	<h1 class="blog-title">
+		<a href="/">BBBBB&#39;s Land</a>
+	</h1></br>
+	Waiting for a light that never comes.
+	</div>
+
+
+	
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/about/index.html">About</a></li>
+			<!-- <li><a id="nav-search-btn" class="nav-icon" title="Search"></a></li> -->
+			
+			
+		</ul>
+		
+		
+		
+		
+	
+	</nav>
+	
+	<!-- <div id="search-form-wrap">
+		<form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+	</div> -->
+	
+	
+</header>
+
+
+    <div id="main">
+      <article id="post-SwiftTipsNote6" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/09/08/SwiftTipsNote6/" class="article-date">
+  <time datetime="2017-09-08T03:38:05.000Z" itemprop="datePublished">2017-09-08</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/09/08/SwiftTipsNote6/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 class="article-title entry-title" itemprop="name">
+      《Swifter - Swift 开发者必备 Tips》读书笔记 6
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+    	<h3 id="输出格式化"><a href="#输出格式化" class="headerlink" title="输出格式化"></a>输出格式化</h3><p>在 <code>Swift</code> 中，打印函数 <code>print</code> 非常简单暴力，支持遵循 <code>Streamable</code> ， <code>Printable</code> ， <code>DebugPrintable</code> 协议的类型直接进行字符串插值：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> a = <span class="number">3</span>;</div><div class="line"><span class="keyword">let</span> b = <span class="number">1.234567</span>  <span class="comment">// 我们在这里不去区分 float 和 Double 了</span></div><div class="line"><span class="keyword">let</span> <span class="built_in">c</span> = <span class="string">"Hello"</span></div><div class="line"><span class="built_in">print</span>(<span class="string">"int:<span class="subst">\(a)</span> double:<span class="subst">\(b)</span> string:<span class="subst">\(<span class="built_in">c</span>)</span>"</span>)</div><div class="line"><span class="comment">// 输出：</span></div><div class="line"><span class="comment">// int:3 double:1.234567 string:Hello</span></div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>虽然简单暴力，但对于某些情况，比如对于浮点数保留几位小数，则需要进行特殊处理：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> a = <span class="number">1.199999</span></div><div class="line"><span class="keyword">let</span> b = <span class="type">String</span>.<span class="keyword">init</span>(format: <span class="string">"%.3f"</span>, a)</div><div class="line"><span class="built_in">print</span>(b)</div></pre></td></tr></table></figure>
+<p>字符串参数 <code>format</code> 的格式，和 <code>Objective-C</code> 中一致。</p>
+<hr>
+<h3 id="Options"><a href="#Options" class="headerlink" title="Options"></a>Options</h3><p>我们说过， <code>enum</code> 在 <code>Swift</code> 中有着非常重要的地位。但有时候会有这样的场景，在一个枚举类型中，不同的case可能并不是互斥的，如：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">PlayerRole</span> </span>&#123;</div><div class="line">    <span class="keyword">case</span> captain</div><div class="line">    <span class="keyword">case</span> player</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>一个球员的角色可能既是队员，又是队长。这种场景，普通的 <code>enum</code> 就无法满足了，必须使用 <code>OptionSet</code> 协议。<br><br>在 <code>Objective-C</code> 中，可以使用位操作，书中给出的例子是 <code>UIViewAnimationOptions</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">[<span class="type">UIView</span> animateWithDuration:<span class="number">0.3</span></div><div class="line">                      delay:<span class="number">0.0</span></div><div class="line">                    options:<span class="type">UIViewAnimationOptionCurveEaseIn</span> |</div><div class="line">                            <span class="type">UIViewAnimationOptionAllowUserInteraction</span></div><div class="line">                 animations:^&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125; completion:<span class="literal">nil</span>];</div><div class="line"></div><div class="line">typedef <span class="type">NS_OPTIONS</span>(<span class="type">NSUInteger</span>, <span class="type">UIViewAnimationOptions</span>) &#123;</div><div class="line">    <span class="type">UIViewAnimationOptionLayoutSubviews</span>            = <span class="number">1</span> &lt;&lt;  <span class="number">0</span>,</div><div class="line">    <span class="type">UIViewAnimationOptionAllowUserInteraction</span>      = <span class="number">1</span> &lt;&lt;  <span class="number">1</span>,</div><div class="line">    <span class="type">UIViewAnimationOptionBeginFromCurrentState</span>     = <span class="number">1</span> &lt;&lt;  <span class="number">2</span>,</div><div class="line"></div><div class="line">    <span class="comment">//...</span></div><div class="line"></div><div class="line">    <span class="type">UIViewAnimationOptionTransitionFlipFromBottom</span>  = <span class="number">7</span> &lt;&lt; <span class="number">20</span>,</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<p>但是在 <code>Swift</code> 中，苹果已经为我们设计了全新的api，那就是 <code>OptionSetType</code> ，于是上面的代码在 <code>Swift</code> 中的样子是下面这样的 ：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="type">UIView</span>.animate(withDuration: <span class="number">0.3</span>,</div><div class="line">    delay: <span class="number">0.0</span>,</div><div class="line">    options: [.curveEaseIn, .allowUserInteraction],</div><div class="line">    animations: &#123;&#125;,</div><div class="line">    completion: <span class="literal">nil</span>)</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">UIViewAnimationOptions</span> : <span class="title">OptionSet</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(rawValue: <span class="type">UInt</span>)</div><div class="line"></div><div class="line">    </div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">var</span> layoutSubviews: <span class="type">UIViewAnimationOptions</span> &#123; <span class="keyword">get</span> &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">var</span> allowUserInteraction: <span class="type">UIViewAnimationOptions</span> &#123; <span class="keyword">get</span> &#125; <span class="comment">// turn on user interaction while animating</span></div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">var</span> beginFromCurrentState: <span class="type">UIViewAnimationOptions</span> &#123; <span class="keyword">get</span> &#125; <span class="comment">// start all views from current value, not initial value</span></div><div class="line"></div><div class="line">   <span class="comment">//...</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">var</span> transitionFlipFromBottom: <span class="type">UIViewAnimationOptions</span> &#123; <span class="keyword">get</span> &#125;</div><div class="line">    <span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="delegate"><a href="#delegate" class="headerlink" title="delegate"></a>delegate</h3><p>哇，居然聊到了 <code>delegate</code> ，这又让我回想起刚开始学习 <code>iOS</code> 开发时的青涩时光。所谓的 <code>protocol-delegate</code> 模式可以说是 <code>Cocoa/Cocoa Touch</code> 开发中最经典的设计模式了。具体的内容不用多讲，大家已经非常熟悉了，这一小节主要是讲了一下在 <code>Swift</code> 中使用这一模式需要注意的地方。<br><br>我们都知道，对于 <code>delegate</code> 变量，出于内存管理上的考量，我们会在声明的时候把它声明成 <code>weak</code> ，于是到了 <code>Swift</code> 中，当我们兴高采烈地写了一个新的 <code>protocol</code> 和 <code>delegate</code> 时，我们多半会得到以下警告：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">A</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">a</span><span class="params">()</span></span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> </span>&#123;</div><div class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> delegate: <span class="type">A</span>?</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//error: 'weak' may only be applied to class and class-bound protocol types, not 'A'</span></div></pre></td></tr></table></figure>
+<p>其原因是因为在 <code>Swift</code> 中， <code>protocol</code> 除了可以被 <code>class</code> 遵循，更能被 <code>enum</code> 、 <code>struct</code> 遵循，然而后两者并不通过 <code>ARC</code> 来进行内存管理，所以在不知道协议由谁遵循的情况下，不能直接使用 <code>weak</code> 。当然，解决方法也很简单：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@objc</span> <span class="class"><span class="keyword">protocol</span> <span class="title">A</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">a</span><span class="params">()</span></span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//or</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">A</span>: <span class="title">class</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">a</span><span class="params">()</span></span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当然了，第二种更 <code>Swift</code> ,也是书中推荐的写法。<br><br>又当然了，自从用了 <code>ReactiveCocoa</code> ，再也瞧不上 <code>protocol-delegate</code> 。。。</p>
+<hr>
+<h3 id="Associated-Object"><a href="#Associated-Object" class="headerlink" title="Associated Object"></a>Associated Object</h3><p>这个玩意儿，最开始是用来应付 “<strong><em><code>category</code> 能给类添加变量吗</em></strong>” 这一面试题的，是属于 <code>Objective-C Runtime</code> 中的内容。到了 <code>Swift</code> 中，他变成了这样：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> </span>&#123;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">var</span> key: <span class="type">Void</span>?</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">extension</span> <span class="title">B</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> title: <span class="type">String</span>? &#123;</div><div class="line">        <span class="keyword">get</span> &#123;</div><div class="line">            <span class="keyword">return</span> objc_getAssociatedObject(<span class="keyword">self</span>, &amp;key) <span class="keyword">as</span>? <span class="type">String</span></div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="keyword">set</span> &#123;</div><div class="line">            objc_setAssociatedObject(<span class="keyword">self</span>, &amp;key, newValue, .<span class="type">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>又当然了， <code>Swift</code> 作为一门静态语言，我们是不推荐在 <code>Swift</code> 中使用 <code>Associated Object</code> 的。</p>
+<hr>
+
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Reading/">Reading</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-Runtime/">Objective-C Runtime</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/08/31/pop-mvvm-tableview/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">
+        
+          Protocol-Oriented Programming 与 MVVM 实践中的TableView
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section> 
+
+
+    </div>
+    <!-- <div class="mb-search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+-->
+<footer id="footer">
+	<!-- <h1 class="footer-blog-title">
+			<a href="/">BBBBB&#39;s Land</a>
+		</h1> 
+	-->
+	<span class="copyright">
+		&copy; 2017 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
+		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
+	</span>
+</footer>
+    
+<script>
+  var disqus_shortname = 'hahnchan';
+  
+  var disqus_url = 'http://yoursite.com/2017/09/08/SwiftTipsNote6/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
