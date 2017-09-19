@@ -62,6 +62,67 @@
     <div id="main">
       
   
+    <article id="post-escapingInSwift" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/07/31/escapingInSwift/" class="article-date">
+  <time datetime="2017-07-31T09:25:41.000Z" itemprop="datePublished">2017-07-31</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/07/31/escapingInSwift/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 itemprop="name" class="entry-title">
+      <a class="article-title" href="/2017/07/31/escapingInSwift/">@escaping In Swift</a>
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+			<p><code>@escaping</code>在Swift中是一个常见的关键字。它的使用场景是声明当一个closure作为参数传入函数时，该closure是“可逃逸”的。即，closure的内容在函数执行完毕之后才会执行（最常见的就是网络请求等异步执行的场景）<br>。在Swift 3中，所有作为参数传入的closure默认是非逃逸的（相当于Swift 2中的<code>@noescape</code>关键字），所以对于异步执行的closure，需要显式地声明<code>@escaping</code>。以下是一个小demo:<br></p>
+			
+				<p class="article-more-link">
+					<a href="/2017/07/31/escapingInSwift/#more">Read More</a>
+				</p>
+      
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/iOS/">iOS</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+</article>
+
+
+	<hr class="article-devider">
+
+
+
+
+
+  
     <article id="post-ReusableCellInMVVM" class="post">
 	<footer class="entry-meta-header">
 		<span class="meta-elements date">

@@ -62,6 +62,67 @@
     <div id="main">
       
   
+    <article id="post-SwiftTipsNote7" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/09/18/SwiftTipsNote7/" class="article-date">
+  <time datetime="2017-09-18T10:15:40.000Z" itemprop="datePublished">2017-09-18</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/09/18/SwiftTipsNote7/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 itemprop="name" class="entry-title">
+      <a class="article-title" href="/2017/09/18/SwiftTipsNote7/">《Swifter - Swift 开发者必备 Tips》读书笔记 7</a>
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+			<h3 id="Swift命令行工具"><a href="#Swift命令行工具" class="headerlink" title="Swift命令行工具"></a>Swift命令行工具</h3><p><code>Swift</code> 提供了一套叫做 <code>REPL(Read-Eval-Print Loop)</code> 的环境可供我们在命令行里使用 <code>Swift</code> 进行交互式编程，就像 <code>python</code> 。<br><br>使用方法非常简单，在 <code>Xcode</code> 6.1 以上版本且安装了 <code>Command Line Tools</code> 的情况下，在命令行中输入 <code>xcrun swift</code> 就可以启动了：<br><img src="https://ws4.sinaimg.cn/large/006tKfTcly1fjnvzxoc9hj30nt0gymyb.jpg" alt=""><br>
+			
+				<p class="article-more-link">
+					<a href="/2017/09/18/SwiftTipsNote7/#more">Read More</a>
+				</p>
+      
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Reading/">Reading</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+</article>
+
+
+	<hr class="article-devider">
+
+
+
+
+
+  
     <article id="post-SwiftTipsNote6" class="post">
 	<footer class="entry-meta-header">
 		<span class="meta-elements date">
@@ -292,68 +353,6 @@
 			<span class="tags">
 				
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVVM/">MVVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Protocol-Oriented-Programming/">Protocol-Oriented Programming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactiveCocoa/">ReactiveCocoa</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactiveSwift/">ReactiveSwift</a></li></ul>
-
-			</span>
-		</div>
-	</footer>
-	
-</article>
-
-
-	<hr class="article-devider">
-
-
-
-
-
-  
-    <article id="post-SwiftTipsNote4" class="post">
-	<footer class="entry-meta-header">
-		<span class="meta-elements date">
-			<a href="/2017/08/18/SwiftTipsNote4/" class="article-date">
-  <time datetime="2017-08-18T02:33:23.000Z" itemprop="datePublished">2017-08-18</time>
-</a>
-		</span>
-		<span class="meta-elements author">Hahn Chan</span>
-		<!-- <div class="commentscount">
-			
-				<a href="http://yoursite.com/2017/08/18/SwiftTipsNote4/#disqus_thread" class="article-comment-link">Comments</a>
-			
-		</div> -->
-	</footer>
-	
-	<header class="entry-header">
-		
-  
-    <h1 itemprop="name" class="entry-title">
-      <a class="article-title" href="/2017/08/18/SwiftTipsNote4/">《Swifter - Swift 开发者必备 Tips》读书笔记 4</a>
-    </h1>
-  
-
-	</header>
-	<div class="entry-content">
-		
-			<h3 id="内存管理，weak-和-unowned"><a href="#内存管理，weak-和-unowned" class="headerlink" title="内存管理，weak 和 unowned"></a>内存管理，weak 和 unowned</h3><p>唔，内存管理是一块很硬很硬很硬很硬的骨头（虽然在<code>ARC</code>时代已经没有以前那么硬了），在这一节中只介绍了简单的<code>Swift</code>中避免循环引用的操作。<br><br>首先，什么是循环引用？最简单来讲，就是你引用了我，我又引用了你。结合书中的代码进行解释:</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line">    <span class="keyword">let</span> b: <span class="type">B</span></div><div class="line">    <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</div><div class="line">        b = <span class="type">B</span>()</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</div><div class="line">        b.a = <span class="keyword">self</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">deinit</span> &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"A deinit"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>: <span class="title">NSObject</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> a: <span class="type">A</span>? = <span class="literal">nil</span></div><div class="line">    <span class="keyword">deinit</span> &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"B deinit"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
-			
-				<p class="article-more-link">
-					<a href="/2017/08/18/SwiftTipsNote4/#more">Read More</a>
-				</p>
-      
-    
-	</div>
-	<footer class="entry-footer">
-		<div class="entry-meta-footer">
-			<span class="category">
-				
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Reading/">Reading</a>
-  </div>
-
-			</span>
-			<span class="tags">
-				
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ARC/">ARC</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内存管理/">内存管理</a></li></ul>
 
 			</span>
 		</div>
