@@ -14,7 +14,7 @@
 <meta property="og:description" content="Swift命令行工具Swift 提供了一套叫做 REPL(Read-Eval-Print Loop) 的环境可供我们在命令行里使用 Swift 进行交互式编程，就像 python 。使用方法非常简单，在 Xcode 6.1 以上版本且安装了 Command Line Tools 的情况下，在命令行中输入 xcrun swift 就可以启动了：">
 <meta property="og:image" content="https://ws4.sinaimg.cn/large/006tKfTcly1fjnvzxoc9hj30nt0gymyb.jpg">
 <meta property="og:image" content="http://7vzn6p.com1.z0.glb.clouddn.com/15057303474161.jpg">
-<meta property="og:updated_time" content="2017-09-19T11:03:06.000Z">
+<meta property="og:updated_time" content="2017-09-28T06:49:17.411Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《Swifter - Swift 开发者必备 Tips》读书笔记 7">
 <meta name="twitter:description" content="Swift命令行工具Swift 提供了一套叫做 REPL(Read-Eval-Print Loop) 的环境可供我们在命令行里使用 Swift 进行交互式编程，就像 python 。使用方法非常简单，在 Xcode 6.1 以上版本且安装了 Command Line Tools 的情况下，在命令行中输入 xcrun swift 就可以启动了：">
@@ -119,6 +119,45 @@
 <p>而这种时候，我们可以用一种更加 <code>Swift</code> 的方式处理回调:</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Result</span> </span>&#123;</div><div class="line">    <span class="keyword">case</span> <span class="type">Success</span>(<span class="type">String</span>)</div><div class="line">    <span class="keyword">case</span> <span class="type">Error</span>(<span class="type">NSError</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">doSomethingParam</span><span class="params">(param:AnyObject)</span></span> -&gt; <span class="type">Result</span> &#123;</div><div class="line">    <span class="comment">//...做某些操作，成功结果放在 success 中</span></div><div class="line">    <span class="keyword">if</span> success &#123;</div><div class="line">        <span class="keyword">return</span> <span class="type">Result</span>.<span class="type">Success</span>(<span class="string">"成功完成"</span>)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">let</span> error = <span class="type">NSError</span>(domain: <span class="string">"errorDomain"</span>, code: <span class="number">1</span>, userInfo: <span class="literal">nil</span>)</div><div class="line">        <span class="keyword">return</span> <span class="type">Result</span>.<span class="type">Error</span>(error)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
 <p>而这也是著名开源库 <a href="https://github.com/antitypical/Result" target="_blank" rel="external">Result: Swift type modelling the success/failure of arbitrary operations.</a> 的核心思想。</p>
+<hr>
+<h3 id="Log-输出"><a href="#Log-输出" class="headerlink" title="Log 输出"></a>Log 输出</h3><p>在 <code>Swift</code> 中，打log最普通的方法就是使用 <code>print()</code> 函数了，当然，我们可能需要添加一下额外的信息，比如当前文件，当前行数等，这时候需要用到一下符号：</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#file</td>
+<td>String</td>
+<td>文件路径</td>
+</tr>
+<tr>
+<td>#line</td>
+<td>Int</td>
+<td>当前行数</td>
+</tr>
+<tr>
+<td>#column</td>
+<td>Int</td>
+<td>当前列数</td>
+</tr>
+<tr>
+<td>#function</td>
+<td>String</td>
+<td>当前函数名</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="宏定义-define"><a href="#宏定义-define" class="headerlink" title="宏定义 define"></a>宏定义 define</h3><p>首先，需要明确的是 <code>#define</code> 在 <code>Swift</code> 已经彻底被去除了。<br><br>以下是官方给出的替换建议：</p>
+<ul>
+<li>使用合适作用范围的 <code>let</code> 或 <code>get</code> 属性代替通过 <code>#define</code> 定义的值</li>
+<li>对于 <code>#define</code> 定义的方法，在相同的作用域重新写一个对应的方法</li>
+</ul>
 <hr>
 
     
