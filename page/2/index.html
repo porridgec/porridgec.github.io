@@ -62,6 +62,67 @@
     <div id="main">
       
   
+    <article id="post-popmvvm" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/08/23/popmvvm/" class="article-date">
+  <time datetime="2017-08-23T06:39:32.000Z" itemprop="datePublished">2017-08-23</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/08/23/popmvvm/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 itemprop="name" class="entry-title">
+      <a class="article-title" href="/2017/08/23/popmvvm/">Protocol-Oriented Programming 与 MVVM 实践</a>
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+			<h3 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h3><p><code>protocol</code>在<code>Objective-C</code>中已经存在，但是在<code>Swift</code>中，它的地位上升到了一个前所未有的新高度。在<a href="http://weibo.com/277195544" target="_blank" rel="external">@Cwift</a>的《Swift：面向协议编程》一书中，作者把<code>protocol</code>,<code>struct</code>以及<code>enum</code>称为<code>Swift三杰</code>。同时，通过查看<code>Swift</code>的源码我们可以发现，诸如<code>Array</code>,<code>Dictionary</code>等类型，全是通过使用<code>struct</code>配合<code>protocol</code>重新实现的，足见在<code>Swift</code>中他们的强大。<br><br><code>Object-Oriented Programming</code>我们已经非常熟悉了，其三大特征：<em>继承</em>、<em>多态</em>、<em>封装</em>我们也耳熟能详。但过于依赖继承，极大可能会面临<code>菱形问题</code>的困扰。<code>protocol</code>的出现，解决了这一问题。<br><br>而<code>MVVM</code>,事实上它和<code>Protocol-Oriented Programming</code>并没有任何直接的联系。只不过是从去年开始，我所有的项目都是使用的<code>MVVM</code>架构。我之前的<code>MVVM</code>写法，是学习<a href="http://blog.leichunfeng.com/blog/2016/02/27/mvvm-with-reactivecocoa/" target="_blank" rel="external">MVVM With ReactiveCocoa - 雷纯锋的技术博客</a>这一篇文章，也写了一个<code>Swift</code>的demo<a href="https://github.com/porridgec/BBMVVMProject" target="_blank" rel="external">porridgec/BBMVVMProject: an MVVM demo with RAC 5</a>。<br></p>
+			
+				<p class="article-more-link">
+					<a href="/2017/08/23/popmvvm/#more">Read More</a>
+				</p>
+      
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Working/">Working</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVVM/">MVVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Protocol-Oriented-Programming/">Protocol-Oriented Programming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactiveCocoa/">ReactiveCocoa</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactiveSwift/">ReactiveSwift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+</article>
+
+
+	<hr class="article-devider">
+
+
+
+
+
+  
     <article id="post-SwiftTipsNote4" class="post">
 	<footer class="entry-meta-header">
 		<span class="meta-elements date">
@@ -317,74 +378,6 @@
 
 
   
-    <article id="post-SwiftTipsNote0" class="post">
-	<footer class="entry-meta-header">
-		<span class="meta-elements date">
-			<a href="/2017/08/01/SwiftTipsNote0/" class="article-date">
-  <time datetime="2017-08-01T08:10:44.000Z" itemprop="datePublished">2017-08-01</time>
-</a>
-		</span>
-		<span class="meta-elements author">Hahn Chan</span>
-		<!-- <div class="commentscount">
-			
-				<a href="http://yoursite.com/2017/08/01/SwiftTipsNote0/#disqus_thread" class="article-comment-link">Comments</a>
-			
-		</div> -->
-	</footer>
-	
-	<header class="entry-header">
-		
-  
-    <h1 itemprop="name" class="entry-title">
-      <a class="article-title" href="/2017/08/01/SwiftTipsNote0/">《Swifter - Swift 开发者必备 Tips》读书笔记 0</a>
-    </h1>
-  
-
-	</header>
-	<div class="entry-content">
-		
-			<h3 id="柯里化-Currying"><a href="#柯里化-Currying" class="headerlink" title="柯里化(Currying)"></a>柯里化(Currying)</h3><p>喵神在书中给出的例子：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">addOne</span><span class="params">(num: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</div><div class="line">    <span class="keyword">return</span> num + <span class="number">1</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
-<p>这只是一个简单的+1的函数，那么要+2，+3呢？</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">addTo</span><span class="params">(<span class="number">_</span> adder: Int)</span></span> -&gt; (<span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        num <span class="keyword">in</span></div><div class="line">        <span class="keyword">return</span> num + adder</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
-<p>那么可以方便地得到</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> addTwo = addTo(<span class="number">2</span>)    <span class="comment">// addTwo: Int -&gt; Int</span></div><div class="line"><span class="keyword">let</span> result = addTwo(<span class="number">6</span>)   <span class="comment">// result = 8</span></div><div class="line"><span class="comment">//Excerpt From: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第三版).” iBooks.</span></div></pre></td></tr></table></figure>
-<p><code>addTo(_ adder: Int)</code>这个函数的返回值就是一个closure，这就体现了柯里化的核心就是函数式编程<code>Functional Programming</code>。</p>
-<hr>
-			
-				<p class="article-more-link">
-					<a href="/2017/08/01/SwiftTipsNote0/#more">Read More</a>
-				</p>
-      
-    
-	</div>
-	<footer class="entry-footer">
-		<div class="entry-meta-footer">
-			<span class="category">
-				
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Reading/">Reading</a>
-  </div>
-
-			</span>
-			<span class="tags">
-				
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Functional-Programming/">Functional Programming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Protocol-Oriented-Programming/">Protocol-Oriented Programming</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ReactiveSwift/">ReactiveSwift</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
-
-			</span>
-		</div>
-	</footer>
-	
-</article>
-
-
-	<hr class="article-devider">
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -405,7 +398,7 @@
 		</h1> 
 	-->
 	<span class="copyright">
-		&copy; 2017 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		&copy; 2018 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
 		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
 		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
 	</span>
