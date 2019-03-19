@@ -62,6 +62,72 @@
     <div id="main">
       
   
+    <article id="post-SwiftTipsNote1" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2017/08/03/SwiftTipsNote1/" class="article-date">
+  <time datetime="2017-08-03T02:41:02.000Z" itemprop="datePublished">2017-08-03</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2017/08/03/SwiftTipsNote1/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 itemprop="name" class="entry-title">
+      <a class="article-title" href="/2017/08/03/SwiftTipsNote1/">《Swifter - Swift 开发者必备 Tips》读书笔记 1</a>
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+			<h3 id="default-参数"><a href="#default-参数" class="headerlink" title="default 参数"></a>default 参数</h3><p><code>Swift</code>的函数支持默认参数，即在声明函数的时候指定一个默认的参数值，当调用函数没有传入参数时，使用这个默认参数。以<code>ReactiveSwift</code>中的常用的<code>Observer</code>初始化函数为例：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">convenience</span> <span class="keyword">init</span>(</div><div class="line">		value: ((<span class="type">Value</span>) -&gt; <span class="type">Void</span>)? = <span class="literal">nil</span>,</div><div class="line">		failed: ((<span class="type">Error</span>) -&gt; <span class="type">Void</span>)? = <span class="literal">nil</span>,</div><div class="line">		completed: (() -&gt; <span class="type">Void</span>)? = <span class="literal">nil</span>,</div><div class="line">		interrupted: (() -&gt; <span class="type">Void</span>)? = <span class="literal">nil</span></div><div class="line">	) &#123;</div><div class="line">		<span class="keyword">self</span>.<span class="keyword">init</span> &#123; event <span class="keyword">in</span></div><div class="line">			<span class="keyword">switch</span> event &#123;</div><div class="line">			<span class="keyword">case</span> <span class="keyword">let</span> .value(v):</div><div class="line">				value?(v)</div><div class="line"></div><div class="line">			<span class="keyword">case</span> <span class="keyword">let</span> .failed(error):</div><div class="line">				failed?(error)</div><div class="line"></div><div class="line">			<span class="keyword">case</span> .completed:</div><div class="line">				completed?()</div><div class="line"></div><div class="line">			<span class="keyword">case</span> .interrupted:</div><div class="line">				interrupted?()</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>可以看到四个参数都指定了默认值<code>nil</code>,这就可以在调用函数时给我们带来极大地遍历，我们不需要传入所有的参数，省下了不少的工作量。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="type">Network</span>.getUser(uid: <span class="literal">nil</span>).start(<span class="type">Observer</span>&lt;<span class="type">UserModel</span>, <span class="type">MoyaError</span>&gt;.<span class="keyword">init</span>(value: &#123; (userModel) <span class="keyword">in</span></div><div class="line">                <span class="type">AccountManager</span>.shared.accountAction.apply((.loginedUser(userModel: userModel), <span class="literal">false</span>)).start()</div><div class="line">                observer.send(value: (action, <span class="literal">true</span>))</div><div class="line">                observer.sendCompleted()</div><div class="line">            &#125;, failed: &#123; (<span class="number">_</span>) <span class="keyword">in</span></div><div class="line">                observer.send(value: (action, <span class="literal">false</span>))</div><div class="line">                observer.sendCompleted()</div><div class="line">            &#125;))</div></pre></td></tr></table></figure>
+<p>如以上代码，可以看到我只传入了<code>value</code>和<code>failed</code>两个closure，因为我的业务只需要对于这两个<code>event</code>进行处理。</p>
+<hr>
+			
+				<p class="article-more-link">
+					<a href="/2017/08/03/SwiftTipsNote1/#more">Read More</a>
+				</p>
+      
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Reading/">Reading</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Swift/">Swift</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+</article>
+
+
+	<hr class="article-devider">
+
+
+
+
+
+  
     <article id="post-SwiftTipsNote0" class="post">
 	<footer class="entry-meta-header">
 		<span class="meta-elements date">
@@ -276,7 +342,7 @@
 		</h1> 
 	-->
 	<span class="copyright">
-		&copy; 2018 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		&copy; 2019 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
 		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
 		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
 	</span>

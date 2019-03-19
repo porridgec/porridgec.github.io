@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>UIScrollView with Auto Layout | BBBBB&#39;s Land</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="description" content="对于一些比较简单的表单，完全不需要使用 UITableView ，直接使用 UIScrollView 就行了，最近做了一些类似的需求，发现 UIScrollView 配合 Auto Layout 还是有一些注意的点的。这里就直接搬运苹果官方的文档。注：粗体部分是核心。">
+<meta name="keywords" content="Auto Layout">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIScrollView with Auto Layout">
+<meta property="og:url" content="http://yoursite.com/2019/03/19/UIScrollView-with-Auto-Layout/index.html">
+<meta property="og:site_name" content="BBBBB&#39;s Land">
+<meta property="og:description" content="对于一些比较简单的表单，完全不需要使用 UITableView ，直接使用 UIScrollView 就行了，最近做了一些类似的需求，发现 UIScrollView 配合 Auto Layout 还是有一些注意的点的。这里就直接搬运苹果官方的文档。注：粗体部分是核心。">
+<meta property="og:updated_time" content="2019-03-19T10:33:19.023Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UIScrollView with Auto Layout">
+<meta name="twitter:description" content="对于一些比较简单的表单，完全不需要使用 UITableView ，直接使用 UIScrollView 就行了，最近做了一些类似的需求，发现 UIScrollView 配合 Auto Layout 还是有一些注意的点的。这里就直接搬运苹果官方的文档。注：粗体部分是核心。">
+  
+  
+    <link rel="icon" href="http://bloodshed.qiniudn.com/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+<body>
+  <div id="container">
+    <div class="mobile-nav-panel">
+	<i class="icon-reorder icon-large"></i>
+</div>
+<header id="header">
+    <div class = "blog-info">
+	<h1 class="blog-title">
+		<a href="/">BBBBB&#39;s Land</a>
+	</h1></br>
+	Waiting for a light that never comes.
+	</div>
+
+
+	
+	<nav class="nav">
+		<ul>
+			<li><a href="/">Home</a></li><li><a href="/archives">Archives</a></li><li><a href="/about/index.html">About</a></li>
+			<!-- <li><a id="nav-search-btn" class="nav-icon" title="Search"></a></li> -->
+			
+			
+		</ul>
+		
+		
+		
+		
+	
+	</nav>
+	
+	<!-- <div id="search-form-wrap">
+		<form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+	</div> -->
+	
+	
+</header>
+
+
+    <div id="main">
+      <article id="post-UIScrollView-with-Auto-Layout" class="post">
+	<footer class="entry-meta-header">
+		<span class="meta-elements date">
+			<a href="/2019/03/19/UIScrollView-with-Auto-Layout/" class="article-date">
+  <time datetime="2019-03-19T09:06:13.000Z" itemprop="datePublished">2019-03-19</time>
+</a>
+		</span>
+		<span class="meta-elements author">Hahn Chan</span>
+		<!-- <div class="commentscount">
+			
+				<a href="http://yoursite.com/2019/03/19/UIScrollView-with-Auto-Layout/#disqus_thread" class="article-comment-link">Comments</a>
+			
+		</div> -->
+	</footer>
+	
+	<header class="entry-header">
+		
+  
+    <h1 class="article-title entry-title" itemprop="name">
+      UIScrollView with Auto Layout
+    </h1>
+  
+
+	</header>
+	<div class="entry-content">
+		
+    	<p>对于一些比较简单的表单，完全不需要使用 <code>UITableView</code> ，直接使用 <code>UIScrollView</code> 就行了，最近做了一些类似的需求，发现 <code>UIScrollView</code> 配合 <code>Auto Layout</code> 还是有一些注意的点的。这里就直接搬运苹果官方的文档。<br>注：粗体部分是核心。</p>
+<a id="more"></a>
+<ol>
+<li>将 scroll view 添加到相应的 view 上</li>
+<li>像正常的 view 一样给 scroll view 添加尺寸及位置的约束</li>
+<li><strong>向 scroll view 添加一个 view，作为 content view</strong></li>
+<li><p><strong>给 content view 添加上下左右的约束， content view 定义了 scroll view 的内容范围（content area）</strong></p>
+<blockquote>
+<p>注意<br>content view 在此时还没有固定的尺寸，它会拉伸以适应你放置其中的 views 和 controls</p>
+</blockquote>
+</li>
+<li><em>(可选)若要禁止水平滚动，则添加 content view 宽度等于 scroll view 宽度的约束。此时 content view 在水平方向上填满了 scroll view</em></li>
+<li><em>(可选)若要禁止垂直滚动，则添加 content view 高度等于 scroll view 高度的约束。此时 content view 在垂直方向上填满了 scroll view</em></li>
+<li><strong>在 content view 中对要添加到 scroll view 中的内容进行布局。正常地对 content view 中的内容添加约束</strong></li>
+</ol>
+<p><strong>最后最重要的一点：</strong><br>&gt;</p>
+<blockquote>
+<p>IMPORTANT<br>Your layout must fully define the size of the content view (except where defined in steps 5 and 6). To set the height based on the intrinsic size of your content, you must have an unbroken chain of constraints and views stretching from the content view’s top edge to its bottom edge. Similarly, to set the width, you must have an unbroken chain of constraints and views from the content view’s leading edge to its trailing edge.<br>If your content does not have an intrinsic content size, you must add the appropriate size constraints, either to the content view or to the content.<br>When the content view is taller than the scroll view, the scroll view enables vertical scrolling. When the content view is wider than the scroll view, the scroll view enables horizontal scrolling. Otherwise, scrolling is disabled by default.</p>
+</blockquote>
+<p>太长就不完全翻译了，核心的点就是：</p>
+<ul>
+<li>必须完整地添加 content view 的尺寸约束<ul>
+<li>如果是垂直方向布局，则需要添加完整的从顶部到底部的约束；如果是水平布局，则需要添加完整的从左到右的约束</li>
+<li>如果添加到 content view 中的内容没有固有尺寸 <code>intrinsic size</code> ，那么还需要对 content view 或者添加到其中的内容添加合适的尺寸约束</li>
+</ul>
+</li>
+<li>当 content view 的内容高度高于 scroll view ，那么则会产生垂直方向上的滚动；若content view 的内容宽度宽于 scroll view ，那么则会产生水平方向上的滚动。否则，scroll view 将不会产生滚动。</li>
+</ul>
+
+    
+	</div>
+	<footer class="entry-footer">
+		<div class="entry-meta-footer">
+			<span class="category">
+				
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Reading/">Reading</a>
+  </div>
+
+			</span>
+			<span class="tags">
+				
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Auto-Layout/">Auto Layout</a></li></ul>
+
+			</span>
+		</div>
+	</footer>
+	
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/12/iOSRe0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">
+        
+          越狱环境下基于 Theos 的 iOS App 逆向入门
+        
+      </div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section> 
+
+
+    </div>
+    <!-- <div class="mb-search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:yoursite.com">
+  </form>
+</div>
+-->
+<footer id="footer">
+	<!-- <h1 class="footer-blog-title">
+			<a href="/">BBBBB&#39;s Land</a>
+		</h1> 
+	-->
+	<span class="copyright">
+		&copy; 2019 <a href="http://hahnchan.info/about">Hahn Chan</a><br>
+		Modify from <a href="http://sanographix.github.io/tumblr/apollo/" target="_blank">Apollo</a> 
+		<br>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></br>
+	</span>
+</footer>
+    
+<script>
+  var disqus_shortname = 'hahnchan';
+  
+  var disqus_url = 'http://yoursite.com/2019/03/19/UIScrollView-with-Auto-Layout/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
